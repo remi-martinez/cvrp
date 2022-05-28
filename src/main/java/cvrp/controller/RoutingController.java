@@ -5,15 +5,13 @@ import cvrp.model.Client;
 import cvrp.model.Graph;
 import cvrp.model.Vehicle;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.ObjectBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
@@ -28,17 +26,18 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class RoutingController implements Initializable {
 
     private final static int POINT_RADIUS = 5;
     private final static int GRAPH_GROWTH = 5;
     private final static int ARROW_HEAD_SIZE = 10;
-    private final static List<Color> AVAILABLE_COLORS = Arrays.asList(Color.RED, Color.ORANGE, Color.GREEN, Color.BLUE);
+    private final static List<Color> AVAILABLE_COLORS = Arrays.asList(Color.RED, Color.CRIMSON, Color.ORANGE,
+            Color.GREEN, Color.DARKGREEN, Color.BLUE, Color.CORNFLOWERBLUE, Color.VIOLET);
 
     @FXML private AnchorPane graphPane;
-    @FXML private Label statsPointsNumberLabel;
+    @FXML private Label statNbClients;
+    @FXML private Label statNbVehicles;
     @FXML private Label graphZoneLabel;
     @FXML private Label fileLabel;
 
@@ -49,8 +48,9 @@ public class RoutingController implements Initializable {
     @FXML private Slider zoomSlider;
     @FXML private Label zoomPercentage;
 
-    private DoubleBinding zoomLevelBinding;
-
+    // For AnchorPane dragging
+    private double dragXOffset = 0;
+    private double dragYOffset = 0;
 
     @FXML private CheckBox arrowCheckbox;
     @FXML private CheckBox colorCheckbox;
@@ -59,7 +59,7 @@ public class RoutingController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zoomPercentage.textProperty().bind(Bindings.createStringBinding(() -> Math.round(zoomSlider.getValue()) + "%", zoomSlider.valueProperty()));
         zoomSlider.valueProperty().addListener((obs, oldValue, newValue) -> {
-            setZoomLevel((double)newValue/100d);
+            setZoomLevel((double) newValue / 100d);
         });
 
 //        this.selectTourne.getItems().addAll(NomAlgoTourne.values());
@@ -76,7 +76,7 @@ public class RoutingController implements Initializable {
         // Default directory
         String defaultDirectoryString = new File("").getAbsolutePath() + "\\files";
         File defaultDirectory = new File(defaultDirectoryString);
-        if(!defaultDirectory.canRead()) {
+        if (!defaultDirectory.canRead()) {
             defaultDirectory = new File("c:/");
         }
         fileChooser.setInitialDirectory(defaultDirectory);
@@ -98,7 +98,8 @@ public class RoutingController implements Initializable {
     public void loadGraph(File file) throws IOException {
         Graph graph = new Graph(file);
         this.graphZoneLabel.setVisible(false);
-        this.statsPointsNumberLabel.setText(graph.getClientList().size() + "");
+        this.statNbClients.setText(graph.getClientList().size() + "");
+        this.statNbVehicles.setText(graph.getVehicles().size() + "");
         this.graphPane.getChildren().clear();
         this.drawGraph(graph);
 
@@ -141,8 +142,7 @@ public class RoutingController implements Initializable {
         this.addPoint(50, 50, Color.BLUEVIOLET);
         this.addPoint(80, 80, Color.BLUEVIOLET);
 
-        graphPane.setScaleX(0.5);
-        graphPane.setScaleY(0.5);
+        // Test other stuff here...
     }
 
     @FXML
@@ -152,16 +152,22 @@ public class RoutingController implements Initializable {
     }
 
     @FXML
-    public void handleGraphPaneDrag(MouseEvent mouseEvent) {
+    public void handleGraphPanePressed(MouseEvent mouseEvent) {
+        dragXOffset = mouseEvent.getX();
+        dragYOffset = mouseEvent.getY();
+    }
+
+    @FXML
+    public void handleGraphPaneDragged(MouseEvent mouseEvent) {
         graphPane.setManaged(false);
-        graphPane.setTranslateX(mouseEvent.getX() + graphPane.getTranslateX());
-        graphPane.setTranslateY(mouseEvent.getY() + graphPane.getTranslateY());
+        graphPane.setTranslateX(mouseEvent.getX() + graphPane.getTranslateX() - dragXOffset);
+        graphPane.setTranslateY(mouseEvent.getY() + graphPane.getTranslateY() - dragYOffset);
         mouseEvent.consume();
     }
 
     public void setZoomLevel(double value) {
         if (value <= 3 && value >= 0.1) {
-            zoomSlider.setValue(100d*value);
+            zoomSlider.setValue(100d * value);
             graphPane.setScaleX(value);
             graphPane.setScaleY(value);
         }
@@ -170,7 +176,7 @@ public class RoutingController implements Initializable {
     @FXML
     public void showAboutWindow() {
         try {
-            URL fxmlFile = new File("src/main/resources/cvrp/cvrp/about.fxml").toURI().toURL();
+            URL fxmlFile = new File("src/main/resources/cvrp/about.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(fxmlFile);
             Stage stage = new Stage();
             stage.setTitle("A propos");
@@ -187,12 +193,11 @@ public class RoutingController implements Initializable {
         circle.setLayoutX(x);
         circle.setLayoutY(y);
         circle.setRadius(POINT_RADIUS);
-        circle.setStroke(color);
-        circle.setFill(color);
+        circle.fillProperty().bind(getColorBinding(color));
 
 
         Tooltip tooltip = new Tooltip();
-        tooltip.setText("x : " + x + ", y : " + y);
+        tooltip.setText("x : " + x/GRAPH_GROWTH + ", y : " + y/GRAPH_GROWTH);
         Tooltip.install(circle, tooltip);
 
         graphPane.getChildren().add(circle);
@@ -204,11 +209,16 @@ public class RoutingController implements Initializable {
         line.setStartY(y1);
         line.setEndX(x2);
         line.setEndY(y2);
-        line.setStroke(color);
+        line.strokeProperty().bind(getColorBinding(color));
 
         StackPane arrow = new StackPane();
         String strColor = color.toString().substring(2, 8);
-        arrow.setStyle(String.format("-fx-background-color:#%s;-fx-border-width:1px;-fx-shape: \"M0,-4L4,0L0,4Z\";-fx-border-color:#%s", strColor, strColor));
+        arrow.styleProperty().bind(Bindings.createStringBinding(() ->
+                "-fx-border-width:1px;-fx-shape: \"M0,-4L4,0L0,4Z\";" +
+                        String.format("-fx-background-color:#%s;-fx-border-color:#%s",
+                                colorCheckbox.isSelected() ? strColor : "000000",
+                                colorCheckbox.isSelected() ? strColor : "000000"), colorCheckbox.selectedProperty()
+        ));
 
         arrow.setLayoutX(x2 - ARROW_HEAD_SIZE);
         arrow.setLayoutY(y2 - ARROW_HEAD_SIZE / 2.0);
@@ -237,6 +247,11 @@ public class RoutingController implements Initializable {
 
         graphPane.getChildren().add(arrow);
         graphPane.getChildren().add(line);
+    }
+
+    public ObjectBinding<Color> getColorBinding(Color color) {
+        return Bindings.createObjectBinding(() ->
+                colorCheckbox.isSelected() ? color : Color.BLACK, colorCheckbox.selectedProperty());
     }
 
     public void setLoading(double value) {

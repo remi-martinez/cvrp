@@ -17,7 +17,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        URL fxmlFile = new File("src/main/resources/cvrp/cvrp/cvrp.fxml").toURI().toURL();
+        URL fxmlFile = new File("src/main/resources/cvrp/cvrp.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(fxmlFile);
         Scene scene = new Scene(root);
         stage.setTitle("Capacited Vehicle Routing Problem");

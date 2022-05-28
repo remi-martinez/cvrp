@@ -23,6 +23,7 @@
 hs_err_pid*
 
 # User-specific stuff
+.idea/*
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
@@ -96,3 +97,4 @@ modules.xml
 
 # Sonarlint plugin
 .idea/sonarlint
+/target/
