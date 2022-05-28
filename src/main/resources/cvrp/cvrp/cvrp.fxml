@@ -39,7 +39,9 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -92,7 +94,7 @@
       <children>
             <SplitPane dividerPositions="0.8012519561815337" prefHeight="695.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <AnchorPane fx:id="graphPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                <AnchorPane fx:id="graphPane" minHeight="0.0" minWidth="0.0" onMouseDragged="#handleGraphPaneDrag" onScroll="#handleGraphPaneScroll" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: lightgray;">
                      <children>
                         <Label fx:id="graphZoneLabel" alignment="CENTER" layoutX="1.0" prefHeight="693.0" prefWidth="1021.0" text="Le graphe apparaîtra ici" textAlignment="CENTER" textFill="#8a8a8a" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
                            <font>
@@ -101,7 +103,7 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="250.0" prefHeight="160.0" prefWidth="114.0">
+                <AnchorPane maxWidth="1000.0" minHeight="0.0" minWidth="250.0" prefHeight="160.0" prefWidth="114.0">
                      <children>
                         <TabPane prefHeight="693.0" prefWidth="251.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
@@ -120,6 +122,15 @@
                                           <ComboBox layoutX="18.0" layoutY="275.0" prefWidth="150.0" />
                                           <Label layoutX="17.0" layoutY="258.0" text="Type d'algorithme" />
                                           <Label layoutX="21.0" layoutY="116.0" text="Nombre de points : " />
+                                          <AnchorPane fx:id="loadingPane" layoutX="2.0" layoutY="613.0" prefHeight="51.0" prefWidth="251.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                             <children>
+                                                <ProgressBar fx:id="loadingProgressBar" prefHeight="18.0" prefWidth="230.0" progress="0.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="9.0" />
+                                                <Label layoutX="12.0" text="Traitement en cours..." />
+                                                <Label fx:id="loadingPercentage" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="224.0" text="0%" />
+                                             </children>
+                                          </AnchorPane>
+                                          <Button layoutX="16.0" layoutY="320.0" mnemonicParsing="false" onAction="#startSimulation" prefHeight="25.0" prefWidth="221.0" text="Démarrer" />
+                                          <Label fx:id="statsPointsNumberLabel" layoutX="127.0" layoutY="116.0" text="0" />
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -129,6 +140,7 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
                                           <CheckBox fx:id="arrowCheckbox" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="204.0" selected="true" text="Afficher les flèches" />
+                                          <CheckBox fx:id="colorCheckbox" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="204.0" selected="true" text="Couleurs différentes" />
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -139,6 +151,13 @@
                   </AnchorPane>
               </items>
             </SplitPane>
+            <AnchorPane prefHeight="18.0" prefWidth="209.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
+               <children>
+                  <Slider fx:id="zoomSlider" layoutX="40.0" layoutY="2.0" majorTickUnit="50.0" max="300.0" min="10.0" minorTickCount="10" prefHeight="14.0" prefWidth="129.0" value="100.0" />
+                  <Label text="Zoom" />
+                  <Label fx:id="zoomPercentage" layoutX="169.0" text="100%" />
+               </children>
+            </AnchorPane>
       </children>
     </AnchorPane>
   </children>
