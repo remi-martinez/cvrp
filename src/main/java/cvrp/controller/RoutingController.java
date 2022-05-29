@@ -55,6 +55,11 @@ public class RoutingController implements Initializable {
     @FXML private CheckBox arrowCheckbox;
     @FXML private CheckBox colorCheckbox;
 
+    @FXML private CheckBox chkbox2Opt;
+    @FXML private CheckBox chkboxExchange;
+    @FXML private CheckBox chkboxRelocate;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         zoomPercentage.textProperty().bind(Bindings.createStringBinding(() -> Math.round(zoomSlider.getValue()) + "%", zoomSlider.valueProperty()));
@@ -123,7 +128,14 @@ public class RoutingController implements Initializable {
             }
             while (it.hasNext()) {
                 Client current = it.next();
-                this.addPoint(previous.getPosX() * GRAPH_GROWTH, previous.getPosY() * GRAPH_GROWTH, visitColor);
+                Circle newPoint = this.addPoint(previous.getPosX() * GRAPH_GROWTH, previous.getPosY() * GRAPH_GROWTH, visitColor);
+                // TODO : à debug (les points 0 et 1 ne sont pas ici ?)
+                System.out.println(current);
+                System.out.println(graph.getWarehouse());
+                System.out.println("----");
+                if (current.equals(graph.getWarehouse())) {
+                    newPoint.setRadius(POINT_RADIUS * 2);
+                }
                 this.addLine(previous.getPosX() * GRAPH_GROWTH,
                         previous.getPosY() * GRAPH_GROWTH,
                         current.getPosX() * GRAPH_GROWTH,
@@ -188,7 +200,7 @@ public class RoutingController implements Initializable {
         }
     }
 
-    public void addPoint(int x, int y, Color color) {
+    public Circle addPoint(int x, int y, Color color) {
         Circle circle = new Circle();
         circle.setLayoutX(x);
         circle.setLayoutY(y);
@@ -201,9 +213,10 @@ public class RoutingController implements Initializable {
         Tooltip.install(circle, tooltip);
 
         graphPane.getChildren().add(circle);
+        return circle;
     }
 
-    public void addLine(int x1, int y1, int x2, int y2, Color color) {
+    public Line addLine(int x1, int y1, int x2, int y2, Color color) {
         Line line = new Line();
         line.setStartX(x1);
         line.setStartY(y1);
@@ -247,6 +260,7 @@ public class RoutingController implements Initializable {
 
         graphPane.getChildren().add(arrow);
         graphPane.getChildren().add(line);
+        return line;
     }
 
     public ObjectBinding<Color> getColorBinding(Color color) {
