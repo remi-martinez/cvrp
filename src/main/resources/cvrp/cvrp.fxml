@@ -81,7 +81,7 @@
       <children>
             <SplitPane dividerPositions="0.8012519561815337" prefHeight="695.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <AnchorPane fx:id="graphPane" minHeight="0.0" minWidth="0.0" onMouseMoved="#updateMouseCoordinates" onMouseDragged="#handleGraphPaneDragged" onMousePressed="#handleGraphPanePressed" onScroll="#handleGraphPaneScroll" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: lightgray;">
+                <AnchorPane fx:id="graphPane" minHeight="0.0" minWidth="0.0" onMouseDragged="#handleGraphPaneDragged" onMouseMoved="#updateMouseCoordinates" onMousePressed="#handleGraphPanePressed" onScroll="#handleGraphPaneScroll" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: lightgray;">
                      <children>
                         <Label fx:id="graphZoneLabel" alignment="CENTER" layoutX="1.0" prefHeight="693.0" prefWidth="1021.0" text="Le graphe apparaîtra ici" textAlignment="CENTER" textFill="GREY" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <font>
@@ -106,7 +106,7 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font></Label>
                                           <Button layoutX="18.0" layoutY="195.0" mnemonicParsing="false" onMouseClicked="#testClicked" text="Point test" />
-                                          <ComboBox layoutX="18.0" layoutY="275.0" prefWidth="150.0" />
+                                          <ComboBox fx:id="algoTypeSelect" layoutX="18.0" layoutY="275.0" prefWidth="150.0" />
                                           <Label layoutX="17.0" layoutY="258.0" text="Type d'algorithme" />
                                           <Label layoutX="21.0" layoutY="116.0" text="Nombre de clients : " />
                                           <AnchorPane fx:id="loadingPane" layoutX="2.0" layoutY="613.0" prefHeight="51.0" prefWidth="251.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">

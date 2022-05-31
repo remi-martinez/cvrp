@@ -1,6 +1,7 @@
 package cvrp.controller;
 
 import cvrp.App;
+import cvrp.model.Algorithm;
 import cvrp.model.Client;
 import cvrp.model.Graph;
 import cvrp.model.Vehicle;
@@ -14,8 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class RoutingController implements Initializable {
@@ -59,6 +60,8 @@ public class RoutingController implements Initializable {
     @FXML private CheckBox colorCheckbox;
     @FXML private TextField graphGrowthTxt;
 
+    @FXML private ComboBox algoTypeSelect;
+
     @FXML private CheckBox chkbox2Opt;
     @FXML private CheckBox chkboxExchange;
     @FXML private CheckBox chkboxRelocate;
@@ -72,6 +75,9 @@ public class RoutingController implements Initializable {
         zoomSlider.valueProperty().addListener((obs, oldValue, newValue) -> {
             setZoomLevel((double) newValue / 100d);
         });
+
+        this.algoTypeSelect.getItems().addAll(Algorithm.values());
+        this.algoTypeSelect.getSelectionModel().selectFirst();
 
 //        this.selectTourne.getItems().addAll(NomAlgoTourne.values());
     }
@@ -111,7 +117,7 @@ public class RoutingController implements Initializable {
         this.graphZoneLabel.setVisible(false);
         this.statNbClients.setText(graph.getClientList().size() + "");
         this.statNbVehicles.setText(graph.getVehicles().size() + "");
-        this.statFitness.setText(Double.toString(graph.getFitness()));
+        this.statFitness.setText(new DecimalFormat("#0.00").format(graph.getFitness()));
         this.graphPane.getChildren().clear();
         this.drawGraph(graph);
     }
