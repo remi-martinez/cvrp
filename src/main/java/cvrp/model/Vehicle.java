@@ -57,12 +57,12 @@ public class Vehicle {
             if (i == 0) {
                 prevClient = this.warehouse;
                 nextClient = this.visit.get(i + 1);
-            } else if (i == visit.size()) {
+            } else if (i == this.visit.size()) {
                 prevClient = this.visit.get(i - 1);
                 nextClient = this.warehouse;
             } else {
                 prevClient = this.visit.get(i - 1);
-                nextClient = this.visit.get(i + 1);
+                nextClient = this.visit.get(i);
             }
 
             //On retire la distance avec le point précedent et suivant

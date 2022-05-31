@@ -135,6 +135,8 @@ public class TransfoElementaire {
                 if(v.getQuantity() + randomClientToModify.getQuantity() <= randomVehicleToModify.QUANTITY_MAX){
                     //Alors on insere le point aléatoirement dans la route
                     v.add(RANDOM.nextInt(v.getVisit().size()), randomClientToModify);
+
+                    //TODO Corriger cela
                     break;
                 }else{
                     Vehicle newVehicle = new Vehicle(g.getWarehouse());

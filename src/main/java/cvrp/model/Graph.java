@@ -33,10 +33,7 @@ public class Graph {
         this.minVehicles = nbTotalPackages / 100; // 100 de quantité par véhicule donc on prévoit large pour des petites tournées
 
         //Génération aléatoire du graph
-//        Generation.graphGeneration(this, true);
-        TransfoElementaire t = new TransfoElementaire();
-        t.recuit(this, 100, 0.9f);
-
+        Graph g =  Generation.graphGeneration(this, true);
     }
 
     public ArrayList<Vehicle> getVehicles() {

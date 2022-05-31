@@ -149,6 +149,9 @@ public class RoutingController implements Initializable {
 
         if (Algorithm.RANDOM.equals(selectedItem)) {
             drawGraph(Generation.graphGeneration(currentGraph, true));
+        }else if(Algorithm.SIMULATED_ANNEALING.equals(selectedItem)){
+            TransfoElementaire t = new TransfoElementaire();
+            drawGraph(t.recuit(currentGraph, 1000, 0.9f));
         }
     }
 
