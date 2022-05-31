@@ -67,10 +67,11 @@ public class Graph {
 
         //On tire aléatoirement des noeuds pour les mettre dans des tournées aléatoirement
         Client depot = getWarehouse(); //On récupère le dépot
-        ArrayList<Client> Clients = (ArrayList<Client>) getClientList().clone();
+        ArrayList<Client> clients = (ArrayList<Client>) getClientList().clone();
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
         if(randomized){
             nbVehicles *= 2; //On prend le double du nombre de vehicules minimum pour commencer aléatoirement
-            Collections.shuffle(Clients); //On randomize une seule fois la collection pour éviter de tirer un aléatoire à chaque fois
+            Collections.shuffle(clients); //On randomize une seule fois la collection pour éviter de tirer un aléatoire à chaque fois
         }
 
         int index = 0;
@@ -78,17 +79,17 @@ public class Graph {
         vehicles.add(new Vehicle(depot));
         Vehicle vehicle = vehicles.get(indexVehicle);
 
-        while (Clients.size() != 0) {
-            Client c = Clients.get(index);
+        while (clients.size() != 0) {
+            Client c = clients.get(index);
             if ((int) vehicle.getVisit().stream().mapToDouble(Client::getQuantity).sum() >= capacityVehicle) {
                 vehicles.add(new Vehicle(depot));
                 indexVehicle++;
                 vehicle = vehicles.get(indexVehicle);
             }
             vehicle.add(c);
-            Clients.remove(index);
+            clients.remove(index);
         }
-
+        this.setVehicles(vehicles);
         return this;
     }
 
