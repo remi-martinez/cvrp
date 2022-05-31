@@ -35,8 +35,8 @@ public class RoutingController implements Initializable {
     private static int GRAPH_GROWTH = 5;
     private final static int POINT_RADIUS = 5;
     private final static int ARROW_HEAD_SIZE = 10;
-    private final static List<Color> AVAILABLE_COLORS = Arrays.asList(Color.RED, Color.CRIMSON, Color.ORANGE,
-            Color.GREEN, Color.DARKGREEN, Color.BLUE, Color.CORNFLOWERBLUE, Color.VIOLET);
+    private final static List<Color> AVAILABLE_COLORS = Arrays.asList(Color.RED, Color.ORANGE,
+            Color.GREEN, Color.DARKGREEN, Color.BLUE, Color.CORNFLOWERBLUE,Color.CRIMSON, Color.VIOLET);
 
     @FXML private AnchorPane graphPane;
     @FXML private Label statNbClients;
@@ -112,7 +112,7 @@ public class RoutingController implements Initializable {
         this.graphZoneLabel.setVisible(false);
         this.statNbClients.setText(graph.getClientList().size() + "");
         this.statNbVehicles.setText(graph.getVehicles().size() + "");
-        this.statFitness.setText(""); // TODO : calculer fitness
+        this.statFitness.setText(Double.toString(graph.getFitness()));
         this.graphPane.getChildren().clear();
         this.drawGraph(graph);
     }
@@ -142,23 +142,15 @@ public class RoutingController implements Initializable {
         int colorIndex = 0;
 
         for (Vehicle v : graph.getVehicles()) {
-            Iterator<Client> it = v.getVisit().iterator();
+            ArrayList<Client> listClient = v.getVisit();
             Color visitColor = AVAILABLE_COLORS.get(colorIndex % AVAILABLE_COLORS.size());
-            Client previous = null;
-            if (it.hasNext()) {
-                previous = it.next();
-            }
+            Client previous = graph.getWarehouse();
+            this.addPoint(previous.getPosX() * GRAPH_GROWTH, previous.getPosY() * GRAPH_GROWTH, Color.PINK).setRadius(10);
+
             colorIndex++;
-            while (it.hasNext()) {
-                Client current = it.next();
-                Circle newPoint = this.addPoint(previous.getPosX() * GRAPH_GROWTH, previous.getPosY() * GRAPH_GROWTH, visitColor);
-                // TODO : à debug (les points 0 et 1 ne sont pas ici ?)
-                System.out.println(current);
-                System.out.println(graph.getWarehouse());
-                System.out.println("----");
-                if (current.equals(graph.getWarehouse())) {
-                    newPoint.setRadius(POINT_RADIUS * 2);
-                }
+            for (Client current : listClient) {
+                this.addPoint(current.getPosX() * GRAPH_GROWTH, current.getPosY() * GRAPH_GROWTH, visitColor);
+
                 this.addLine(previous.getPosX() * GRAPH_GROWTH,
                         previous.getPosY() * GRAPH_GROWTH,
                         current.getPosX() * GRAPH_GROWTH,
@@ -166,6 +158,12 @@ public class RoutingController implements Initializable {
                         visitColor);
                 previous = current;
             }
+            Circle newPoint = this.addPoint(previous.getPosX() * GRAPH_GROWTH, previous.getPosY() * GRAPH_GROWTH, visitColor);
+            this.addLine(previous.getPosX() * GRAPH_GROWTH,
+                    previous.getPosY() * GRAPH_GROWTH,
+                    graph.getWarehouse().getPosX() * GRAPH_GROWTH,
+                    graph.getWarehouse().getPosY() * GRAPH_GROWTH,
+                    visitColor);
         }
 
     }

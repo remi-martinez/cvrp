@@ -86,5 +86,8 @@ public class Graph {
         return getClientList().get(0);
     }
 
+    public double getFitness() {
+        return getVehicles().stream().mapToDouble(Vehicle::getLength).sum();
+    }
 
 }
