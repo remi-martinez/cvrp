@@ -14,6 +14,7 @@ public class Graph {
     private ArrayList<Client> newMap = new ArrayList<>();
     private ArrayList<Vehicle> vehicles = new ArrayList<>();
     private Client warehouse;
+    private int minVehicles;
 
     public Graph(File file) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -32,7 +33,10 @@ public class Graph {
         int minVehicles = nbTotalPackages / 100; // 100 de quantité par véhicule donc on prévoit large pour des petites tournées
 
         //Génération aléatoire du graph
-        graphGeneration(minVehicles, true);
+//        graphGeneration(minVehicles, true);
+        TransfoElementaire t = new TransfoElementaire();
+        t.recuit(this, 100, (float) 0.9);
+
     }
 
     public ArrayList<Vehicle> getVehicles() {
@@ -60,37 +64,12 @@ public class Graph {
         this.newMap = newMap;
     }
 
-    public Graph graphGeneration(int minVehicles, boolean randomized) {
-        int capacityVehicle = 100;
-        int indexVehicle = 0;
-        int nbVehicles = minVehicles;
+    public int getMinVehicles() {
+        return minVehicles;
+    }
 
-        //On tire aléatoirement des noeuds pour les mettre dans des tournées aléatoirement
-        Client depot = getWarehouse(); //On récupère le dépot
-        ArrayList<Client> clients = (ArrayList<Client>) getClientList().clone();
-        ArrayList<Vehicle> vehicles = new ArrayList<>();
-        if(randomized){
-            nbVehicles *= 2; //On prend le double du nombre de vehicules minimum pour commencer aléatoirement
-            Collections.shuffle(clients); //On randomize une seule fois la collection pour éviter de tirer un aléatoire à chaque fois
-        }
-
-        int index = 0;
-
-        vehicles.add(new Vehicle(depot));
-        Vehicle vehicle = vehicles.get(indexVehicle);
-
-        while (clients.size() != 0) {
-            Client c = clients.get(index);
-            if ((int) vehicle.getVisit().stream().mapToDouble(Client::getQuantity).sum() >= capacityVehicle) {
-                vehicles.add(new Vehicle(depot));
-                indexVehicle++;
-                vehicle = vehicles.get(indexVehicle);
-            }
-            vehicle.add(c);
-            clients.remove(index);
-        }
-        this.setVehicles(vehicles);
-        return this;
+    public void setMinVehicles(int minVehicles) {
+        this.minVehicles = minVehicles;
     }
 
     public Client getWarehouse() {
