@@ -19,7 +19,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -29,8 +32,8 @@ import java.util.*;
 
 public class RoutingController implements Initializable {
 
+    private static int GRAPH_GROWTH = 5;
     private final static int POINT_RADIUS = 5;
-    private final static int GRAPH_GROWTH = 5;
     private final static int ARROW_HEAD_SIZE = 10;
     private final static List<Color> AVAILABLE_COLORS = Arrays.asList(Color.RED, Color.CRIMSON, Color.ORANGE,
             Color.GREEN, Color.DARKGREEN, Color.BLUE, Color.CORNFLOWERBLUE, Color.VIOLET);
@@ -38,6 +41,7 @@ public class RoutingController implements Initializable {
     @FXML private AnchorPane graphPane;
     @FXML private Label statNbClients;
     @FXML private Label statNbVehicles;
+    @FXML private Label statFitness;
     @FXML private Label graphZoneLabel;
     @FXML private Label fileLabel;
 
@@ -54,10 +58,13 @@ public class RoutingController implements Initializable {
 
     @FXML private CheckBox arrowCheckbox;
     @FXML private CheckBox colorCheckbox;
+    @FXML private TextField graphGrowthTxt;
 
     @FXML private CheckBox chkbox2Opt;
     @FXML private CheckBox chkboxExchange;
     @FXML private CheckBox chkboxRelocate;
+
+    private Graph currentGraph;
 
 
     @Override
@@ -105,9 +112,21 @@ public class RoutingController implements Initializable {
         this.graphZoneLabel.setVisible(false);
         this.statNbClients.setText(graph.getClientList().size() + "");
         this.statNbVehicles.setText(graph.getVehicles().size() + "");
+        this.statFitness.setText(""); // TODO : calculer fitness
         this.graphPane.getChildren().clear();
         this.drawGraph(graph);
+    }
 
+    @FXML
+    public void resetGraph() {
+        centerGraph();
+        this.currentGraph = null;
+        this.fileLabel.setText("Aucun fichier sélectionné");
+        this.fileLabel.setTextFill(Color.DARKGRAY);
+        this.statNbClients.setText("0");
+        this.statNbVehicles.setText("0");
+        this.statFitness.setText("n/a");
+        graphPane.getChildren().clear();
     }
 
     @FXML
@@ -117,15 +136,19 @@ public class RoutingController implements Initializable {
     }
 
     public void drawGraph(Graph graph) {
-        Random rand = new Random();
+        this.graphPane.getChildren().clear();
+        this.currentGraph = graph;
+
+        int colorIndex = 0;
 
         for (Vehicle v : graph.getVehicles()) {
             Iterator<Client> it = v.getVisit().iterator();
-            Color visitColor = AVAILABLE_COLORS.get(rand.nextInt(AVAILABLE_COLORS.size()));
+            Color visitColor = AVAILABLE_COLORS.get(colorIndex % AVAILABLE_COLORS.size());
             Client previous = null;
             if (it.hasNext()) {
                 previous = it.next();
             }
+            colorIndex++;
             while (it.hasNext()) {
                 Client current = it.next();
                 Circle newPoint = this.addPoint(previous.getPosX() * GRAPH_GROWTH, previous.getPosY() * GRAPH_GROWTH, visitColor);
@@ -143,7 +166,6 @@ public class RoutingController implements Initializable {
                         visitColor);
                 previous = current;
             }
-
         }
 
     }
@@ -177,6 +199,13 @@ public class RoutingController implements Initializable {
         mouseEvent.consume();
     }
 
+    @FXML
+    public void centerGraph() {
+        graphPane.setTranslateX(0);
+        graphPane.setTranslateY(0);
+        setZoomLevel(1);
+    }
+
     public void setZoomLevel(double value) {
         if (value <= 3 && value >= 0.1) {
             zoomSlider.setValue(100d * value);
@@ -186,12 +215,31 @@ public class RoutingController implements Initializable {
     }
 
     @FXML
+    public void graphGrowthPlus() {
+        if(currentGraph == null || GRAPH_GROWTH >= 10) return;
+        centerGraph();
+        GRAPH_GROWTH++;
+        drawGraph(currentGraph);
+        graphGrowthTxt.setText(Integer.toString(GRAPH_GROWTH));
+    }
+
+    @FXML
+    public void graphGrowthMinus() {
+        if(currentGraph == null || GRAPH_GROWTH <= 1) return;
+        centerGraph();
+        GRAPH_GROWTH--;
+        drawGraph(currentGraph);
+        graphGrowthTxt.setText(Integer.toString(GRAPH_GROWTH));
+    }
+
+    @FXML
     public void showAboutWindow() {
         try {
             URL fxmlFile = new File("src/main/resources/cvrp/about.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(fxmlFile);
             Stage stage = new Stage();
             stage.setTitle("A propos");
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.setScene(new Scene(root));
             stage.show();

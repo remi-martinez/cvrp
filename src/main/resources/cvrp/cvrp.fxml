@@ -46,6 +46,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -56,32 +57,17 @@
       <menus>
         <Menu mnemonicParsing="false" text="Fichier">
           <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
+            <MenuItem mnemonicParsing="false" onAction="#resetGraph" text="Nouveau" />
+            <MenuItem mnemonicParsing="false" onAction="#filePickerClicked" text="Ouvrir..." />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
+            <MenuItem mnemonicParsing="false" text="Paramètres" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem mnemonicParsing="false" text="Quitter" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edition">
           <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
+            <MenuItem mnemonicParsing="false" text="Démarrer" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Aide">
@@ -97,7 +83,7 @@
               <items>
                 <AnchorPane fx:id="graphPane" minHeight="0.0" minWidth="0.0" onMouseDragged="#handleGraphPaneDragged" onMousePressed="#handleGraphPanePressed" onScroll="#handleGraphPaneScroll" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: lightgray;">
                      <children>
-                        <Label fx:id="graphZoneLabel" alignment="CENTER" layoutX="1.0" prefHeight="693.0" prefWidth="1021.0" text="Le graphe apparaîtra ici" textAlignment="CENTER" textFill="#8a8a8a" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0">
+                        <Label fx:id="graphZoneLabel" alignment="CENTER" layoutX="1.0" prefHeight="693.0" prefWidth="1021.0" text="Le graphe apparaîtra ici" textAlignment="CENTER" textFill="GREY" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -114,7 +100,7 @@
                                        <children>
                                           <Button layoutX="18.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#filePickerClicked" text="Choisir un fichier..." />
                                           <Label layoutX="21.0" layoutY="39.0" text="Fichier :" />
-                                          <Label fx:id="fileLabel" layoutX="65.0" layoutY="39.0" text="Aucun fichier sélectionné" textFill="#ababab" />
+                                          <Label fx:id="fileLabel" layoutX="65.0" layoutY="39.0" text="Aucun fichier sélectionné" textFill="DARKGRAY" />
                                           <Label layoutX="21.0" layoutY="89.0" text="Statistiques">
                                              <font>
                                                 <Font name="System Bold" size="12.0" />
@@ -144,6 +130,7 @@
                                           <CheckBox fx:id="chkboxRelocate" layoutX="18.0" layoutY="381.0" mnemonicParsing="false" text="Relocate" />
                                           <Separator layoutX="14.0" layoutY="244.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                           <Label layoutX="21.0" layoutY="150.0" text="Fitness :" />
+                                          <Label fx:id="statFitness" layoutX="66.0" layoutY="150.0" text="n/a" />
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -152,8 +139,17 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <CheckBox fx:id="arrowCheckbox" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="204.0" selected="true" text="Afficher les flèches" />
-                                          <CheckBox fx:id="colorCheckbox" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="204.0" selected="true" text="Afficher les couleurs" />
+                                          <CheckBox fx:id="arrowCheckbox" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="204.0" selected="true" text="Afficher les flèches" AnchorPane.leftAnchor="16.0" />
+                                          <CheckBox fx:id="colorCheckbox" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="204.0" selected="true" text="Afficher les couleurs" AnchorPane.leftAnchor="16.0" />
+                                          <Button layoutX="14.0" layoutY="65.0" mnemonicParsing="false" onAction="#centerGraph" text="Recentrer le graphe" AnchorPane.leftAnchor="16.0" />
+                                          <Label layoutX="16.0" layoutY="101.0" text="Expansion du graphe">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Button layoutX="51.0" layoutY="118.0" mnemonicParsing="false" onAction="#graphGrowthPlus" prefHeight="25.0" prefWidth="30.0" text="+" />
+                                          <Button layoutX="16.0" layoutY="118.0" mnemonicParsing="false" onAction="#graphGrowthMinus" prefHeight="25.0" prefWidth="30.0" text="-" />
+                                          <TextField fx:id="graphGrowthTxt" disable="true" layoutX="90.0" layoutY="118.0" prefHeight="25.0" prefWidth="45.0" text="5" />
                                        </children>
                                     </AnchorPane>
                               </content>
