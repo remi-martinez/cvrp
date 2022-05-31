@@ -61,6 +61,7 @@ public class RoutingController implements Initializable {
     @FXML private TextField graphGrowthTxt;
 
     @FXML private ComboBox algoTypeSelect;
+    @FXML private Button startSimulationBtn;
 
     @FXML private CheckBox chkbox2Opt;
     @FXML private CheckBox chkboxExchange;
@@ -75,11 +76,14 @@ public class RoutingController implements Initializable {
         zoomSlider.valueProperty().addListener((obs, oldValue, newValue) -> {
             setZoomLevel((double) newValue / 100d);
         });
+//        startSimulationBtn.disableProperty().bind(Bindings.createBooleanBinding(() -> currentGraph == null)); // FIXME
+
 
         this.algoTypeSelect.getItems().addAll(Algorithm.values());
         this.algoTypeSelect.getSelectionModel().selectFirst();
 
-//        this.selectTourne.getItems().addAll(NomAlgoTourne.values());
+
+
     }
 
     @FXML
@@ -115,11 +119,17 @@ public class RoutingController implements Initializable {
     public void loadGraph(File file) throws IOException {
         Graph graph = new Graph(file);
         this.graphZoneLabel.setVisible(false);
-        this.statNbClients.setText(graph.getClientList().size() + "");
-        this.statNbVehicles.setText(graph.getVehicles().size() + "");
-        this.statFitness.setText(new DecimalFormat("#0.00").format(graph.getFitness()));
         this.graphPane.getChildren().clear();
+        this.updateGraphStats();
         this.drawGraph(graph);
+    }
+
+    public void updateGraphStats() {
+        if(currentGraph == null) return;
+
+        this.statNbClients.setText(currentGraph.getClientList().size() + "");
+        this.statNbVehicles.setText(currentGraph.getVehicles().size() + "");
+        this.statFitness.setText(new DecimalFormat("#0.00").format(currentGraph.getFitness()));
     }
 
     @FXML
@@ -137,16 +147,24 @@ public class RoutingController implements Initializable {
     @FXML
     public void startSimulation() {
         loadingPane.setVisible(true);
-        graphPane.getChildren().remove(graphPane.lookup("Line"));
+
+        Object selectedItem = algoTypeSelect.getSelectionModel().getSelectedItem();
+
+        if (Algorithm.RANDOM.equals(selectedItem)) {
+//            graphPane.getChildren().clear();
+            drawGraph(currentGraph.graphGeneration(true));
+        }
     }
 
     public void drawGraph(Graph graph) {
         this.graphPane.getChildren().clear();
         this.currentGraph = graph;
+        this.updateGraphStats();
 
         int colorIndex = 0;
 
         for (Vehicle v : graph.getVehicles()) {
+            this.setLoading(0.5f);
             ArrayList<Client> listClient = v.getVisit();
             Color visitColor = AVAILABLE_COLORS.get(colorIndex % AVAILABLE_COLORS.size());
             Client previous = graph.getWarehouse();

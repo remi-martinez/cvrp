@@ -116,7 +116,7 @@
                                                 <Label fx:id="loadingPercentage" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="224.0" text="0%" />
                                              </children>
                                           </AnchorPane>
-                                          <Button layoutX="16.0" layoutY="432.0" mnemonicParsing="false" onAction="#startSimulation" prefHeight="25.0" prefWidth="221.0" text="Démarrer" AnchorPane.leftAnchor="16.0" />
+                                          <Button fx:id="startSimulationBtn" layoutX="16.0" layoutY="432.0" mnemonicParsing="false" onAction="#startSimulation" prefHeight="25.0" prefWidth="221.0" text="Démarrer" AnchorPane.leftAnchor="16.0" />
                                           <Label fx:id="statNbClients" layoutX="127.0" layoutY="116.0" text="0" />
                                           <Label layoutX="21.0" layoutY="133.0" text="Nombre de véhicules : " />
                                           <Label fx:id="statNbVehicles" layoutX="143.0" layoutY="133.0" text="0" />
