@@ -19,8 +19,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -51,6 +49,7 @@ public class RoutingController implements Initializable {
 
     @FXML private Slider zoomSlider;
     @FXML private Label zoomPercentage;
+    @FXML private Label mouseCoordinates;
 
     // For AnchorPane dragging
     private double dragXOffset = 0;
@@ -317,5 +316,11 @@ public class RoutingController implements Initializable {
     public void setLoading(double value) {
         loadingPercentage.setText(String.format("%.0f%%", value));
         loadingProgressBar.setProgress(value);
+    }
+
+    @FXML
+    public void updateMouseCoordinates(MouseEvent mouseEvent) {
+        mouseCoordinates.setText("x : " + (int)(mouseEvent.getX()/GRAPH_GROWTH) +
+                " / y : " + (int)(mouseEvent.getY()/GRAPH_GROWTH));
     }
 }

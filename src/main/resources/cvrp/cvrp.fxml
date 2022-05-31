@@ -81,7 +81,7 @@
       <children>
             <SplitPane dividerPositions="0.8012519561815337" prefHeight="695.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <AnchorPane fx:id="graphPane" minHeight="0.0" minWidth="0.0" onMouseDragged="#handleGraphPaneDragged" onMousePressed="#handleGraphPanePressed" onScroll="#handleGraphPaneScroll" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: lightgray;">
+                <AnchorPane fx:id="graphPane" minHeight="0.0" minWidth="0.0" onMouseMoved="#updateMouseCoordinates" onMouseDragged="#handleGraphPaneDragged" onMousePressed="#handleGraphPanePressed" onScroll="#handleGraphPaneScroll" prefHeight="160.0" prefWidth="100.0" style="-fx-border-color: lightgray;">
                      <children>
                         <Label fx:id="graphZoneLabel" alignment="CENTER" layoutX="1.0" prefHeight="693.0" prefWidth="1021.0" text="Le graphe apparaîtra ici" textAlignment="CENTER" textFill="GREY" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <font>
@@ -160,11 +160,12 @@
                   </AnchorPane>
               </items>
             </SplitPane>
-            <AnchorPane prefHeight="18.0" prefWidth="209.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
+            <AnchorPane prefHeight="18.0" prefWidth="1007.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0">
                <children>
                   <Slider fx:id="zoomSlider" layoutX="40.0" layoutY="2.0" majorTickUnit="50.0" max="300.0" min="10.0" minorTickCount="10" prefHeight="14.0" prefWidth="129.0" value="100.0" />
                   <Label text="Zoom" />
                   <Label fx:id="zoomPercentage" layoutX="169.0" text="100%" />
+                  <Label fx:id="mouseCoordinates" text="x : 0 / y : 0" AnchorPane.rightAnchor="0.0" />
                </children>
             </AnchorPane>
       </children>
