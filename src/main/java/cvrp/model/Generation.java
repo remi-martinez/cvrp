@@ -5,17 +5,15 @@ import java.util.Collections;
 
 public class Generation {
 
-    public Graph graphGeneration(Graph g, boolean randomized) {
+    public static Graph graphGeneration(Graph g, boolean randomized) {
         int capacityVehicle = 100;
         int indexVehicle = 0;
-        int nbVehicles = g.getMinVehicles();
 
         //On tire aléatoirement des noeuds pour les mettre dans des tournées aléatoirement
         Client depot = g.getWarehouse(); //On récupère le dépot
         ArrayList<Client> clients = (ArrayList<Client>) g.getClientList().clone();
         ArrayList<Vehicle> vehicles = new ArrayList<>();
         if(randomized){
-            nbVehicles *= 2; //On prend le double du nombre de vehicules minimum pour commencer aléatoirement
             Collections.shuffle(clients); //On randomize une seule fois la collection pour éviter de tirer un aléatoire à chaque fois
         }
 

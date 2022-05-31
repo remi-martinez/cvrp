@@ -30,12 +30,12 @@ public class Graph {
             getClientList().add(Client);
             nbTotalPackages += Integer.parseInt(line[3]);
         }
-        int minVehicles = nbTotalPackages / 100; // 100 de quantité par véhicule donc on prévoit large pour des petites tournées
+        this.minVehicles = nbTotalPackages / 100; // 100 de quantité par véhicule donc on prévoit large pour des petites tournées
 
         //Génération aléatoire du graph
-//        graphGeneration(minVehicles, true);
+//        Generation.graphGeneration(this, true);
         TransfoElementaire t = new TransfoElementaire();
-        t.recuit(this, 100, (float) 0.9);
+        t.recuit(this, 100, 0.9f);
 
     }
 

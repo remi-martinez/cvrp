@@ -1,10 +1,7 @@
 package cvrp.controller;
 
 import cvrp.App;
-import cvrp.model.Algorithm;
-import cvrp.model.Client;
-import cvrp.model.Graph;
-import cvrp.model.Vehicle;
+import cvrp.model.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.fxml.FXML;
@@ -151,8 +148,7 @@ public class RoutingController implements Initializable {
         Object selectedItem = algoTypeSelect.getSelectionModel().getSelectedItem();
 
         if (Algorithm.RANDOM.equals(selectedItem)) {
-//            graphPane.getChildren().clear();
-            drawGraph(currentGraph.graphGeneration(true));
+            drawGraph(Generation.graphGeneration(currentGraph, true));
         }
     }
 
