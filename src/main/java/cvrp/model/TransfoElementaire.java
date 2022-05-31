@@ -103,6 +103,7 @@ public class TransfoElementaire {
         int vehicleToModifyIndex = RANDOM.nextInt(g.getVehicles().size());
         Vehicle vehicleToModify = g.getVehicles().get(vehicleToModifyIndex);
         ArrayList<Client> visitToModify = vehicleToModify.getVisit();
+
         //TODO remove when we have real operators
         if (visitToModify.size() > 1) {
             int clientToMoveIndex = RANDOM.nextInt(visitToModify.size());
@@ -149,6 +150,30 @@ public class TransfoElementaire {
 
         return g;
 
+    }
+
+    public Graph recuit(int maxIteration, float variation){
+        ArrayList<Vehicle> currentSolution;
+        double latestFitness = g.getFitness();
+        double temperature = g.getInitialTemperature();
+        //double variation = 0.90;
+
+        for (int i = 0; i < maxIteration; i++) {
+            currentSolution = g.cloneCurrentSolution();
+            if (RANDOM.nextBoolean()) {
+                randomNeighbor();
+            } else {
+                randomNeighbor2();
+            }
+            final double currentTotalFitness = g.getFitness();
+            if (currentTotalFitness < latestFitness || (RANDOM.nextDouble() < Math.exp((latestFitness - currentTotalFitness) / temperature))) {
+                latestFitness = currentTotalFitness;
+            } else {
+                g.setVehicles(currentSolution);
+            }
+            temperature = variation * temperature;
+        }
+        return g;
     }
 
 }

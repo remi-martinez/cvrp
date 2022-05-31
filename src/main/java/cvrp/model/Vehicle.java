@@ -113,4 +113,11 @@ public class Vehicle {
     public void setWarehouse(Client warehouse) {
         this.warehouse = warehouse;
     }
+
+    @Override
+    public Vehicle clone() {
+        Vehicle clone = new Vehicle(warehouse);
+        visit.stream().forEach(clone::add);
+        return clone;
+    }
 }
