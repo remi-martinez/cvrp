@@ -143,6 +143,15 @@ public class RoutingController implements Initializable {
 
     @FXML
     public void startSimulation() {
+        if(currentGraph == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez d'abord importer un graphe.");
+            alert.showAndWait();
+            return;
+        }
+
         loadingPane.setVisible(true);
 
         Object selectedItem = algoTypeSelect.getSelectionModel().getSelectedItem();
@@ -154,6 +163,8 @@ public class RoutingController implements Initializable {
             drawGraph(t.recuit(1000000, 0.9f));
         }
     }
+
+
 
     public void drawGraph(Graph graph) {
         this.graphPane.getChildren().clear();
