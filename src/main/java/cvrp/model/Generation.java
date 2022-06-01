@@ -10,8 +10,8 @@ public class Generation {
         int indexVehicle = 0;
 
         //On tire aléatoirement des noeuds pour les mettre dans des tournées aléatoirement
-        Client depot = g.getWarehouse(); //On récupère le dépot
         ArrayList<Client> clients = (ArrayList<Client>) g.getClientList().clone();
+        Client depot = clients.remove(0);
         ArrayList<Vehicle> vehicles = new ArrayList<>();
         if(randomized){
             Collections.shuffle(clients); //On randomize une seule fois la collection pour éviter de tirer un aléatoire à chaque fois

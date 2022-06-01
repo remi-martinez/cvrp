@@ -24,10 +24,12 @@ public class Graph {
 
         //On skip la premiere ligne
         br.readLine();
+
+        //On parcourt les autres points
         while ((st = br.readLine()) != null) {
             String[] line = st.split(";");
-            Client Client = new Client(line);
-            getClientList().add(Client);
+            Client client = new Client(line);
+            this.getClientList().add(client);
             nbTotalPackages += Integer.parseInt(line[3]);
         }
         this.minVehicles = nbTotalPackages / 100; // 100 de quantité par véhicule donc on prévoit large pour des petites tournées
@@ -73,12 +75,13 @@ public class Graph {
         return getClientList().get(0);
     }
 
+
     public double getFitness() {
         return getVehicles().stream().mapToDouble(Vehicle::getLength).sum();
     }
 
     public double getInitialTemperature(){
-        return -getFitness() / Math.log(0.8);
+        return -getFitness() / Math.log(0.5);
     }
 
     public ArrayList<Vehicle> cloneCurrentSolution() {

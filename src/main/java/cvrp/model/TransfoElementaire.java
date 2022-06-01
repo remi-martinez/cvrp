@@ -22,7 +22,21 @@ public class TransfoElementaire {
 
     private static final Random RANDOM = new Random();
 
-//    public void twoOpt(Vehicle v)
+    private Graph graph;
+
+    public Graph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
+    public TransfoElementaire(Graph graph) {
+        this.graph = graph;
+    }
+
+    //    public void twoOpt(Vehicle v)
 //    {
 //        // Get tour size
 //        int size = g.getClientList().size();
@@ -94,9 +108,9 @@ public class TransfoElementaire {
     /**
      * Déplacement aléatoire d'un point dans sa route
      */
-    public Graph randomNeighbor(Graph g){
-        int vehicleToModifyIndex = RANDOM.nextInt(g.getVehicles().size());
-        Vehicle vehicleToModify = g.getVehicles().get(vehicleToModifyIndex);
+    public Graph randomNeighbor(){
+        int vehicleToModifyIndex = RANDOM.nextInt(this.graph.getVehicles().size());
+        Vehicle vehicleToModify = this.graph.getVehicles().get(vehicleToModifyIndex);
         ArrayList<Client> visitToModify = vehicleToModify.getVisit();
 
         //TODO remove when we have real operators
@@ -108,25 +122,26 @@ public class TransfoElementaire {
             vehicleToModify.add(insertIndex, clientToMove);
         }
 
-        return g;
+        return this.graph;
     }
 
     /**
      *  Deplace un point aléatoirement d'une route à une autre
      *
      */
-    public Graph randomNeighbor2(Graph g) {
-        Vehicle randomVehicleToModify = g.getVehicles().get(RANDOM.nextInt(g.getVehicles().size()));
+    public Graph randomNeighbor2() {
+        Vehicle randomVehicleToModify = this.graph.getVehicles().get(RANDOM.nextInt(this.graph.getVehicles().size()));
         Client randomClientToModify = randomVehicleToModify.remove(RANDOM.nextInt(randomVehicleToModify.getVisit().size()));
 
         if(randomVehicleToModify.getVisit().size() == 0){
-            g.getVehicles().remove(randomVehicleToModify);
+            this.graph.getVehicles().remove(randomVehicleToModify);
         }
 
         //On randomize l'ordre des véhicules
-        ArrayList<Vehicle> randomizeVehicles = (ArrayList<Vehicle>) g.getVehicles().clone();
+        ArrayList<Vehicle> randomizeVehicles = (ArrayList<Vehicle>) this.graph.getVehicles().clone();
         Collections.shuffle(randomizeVehicles);
 
+        boolean clientAdded = false;
         //On parcourt tout les véhicules
         for (Vehicle v: randomizeVehicles) {
             //Sauf le véhicule que l'on modifie et
@@ -135,42 +150,44 @@ public class TransfoElementaire {
                 if(v.getQuantity() + randomClientToModify.getQuantity() <= randomVehicleToModify.QUANTITY_MAX){
                     //Alors on insere le point aléatoirement dans la route
                     v.add(RANDOM.nextInt(v.getVisit().size()), randomClientToModify);
-
-                    //TODO Corriger cela
+                    clientAdded = true;
                     break;
-                }else{
-                    Vehicle newVehicle = new Vehicle(g.getWarehouse());
-                    newVehicle.add(randomClientToModify);
                 }
+
             }
         }
+        if(!clientAdded){
+            Vehicle newVehicle = new Vehicle(this.graph.getWarehouse());
+            newVehicle.add(randomClientToModify);
+            this.graph.getVehicles().add(newVehicle);
+        }
 
-        return g;
+        return this.graph;
 
     }
 
-    public Graph recuit(Graph g, int maxIteration, float variation){
+    public Graph recuit(int maxIteration, float variation){
         ArrayList<Vehicle> currentSolution;
-        double latestFitness = g.getFitness();
-        double temperature = g.getInitialTemperature();
+        double latestFitness = this.graph.getFitness();
+        double temperature = this.graph.getInitialTemperature();
         //double variation = 0.90;
 
         for (int i = 0; i < maxIteration; i++) {
-            currentSolution = g.cloneCurrentSolution();
+            currentSolution = this.graph.cloneCurrentSolution();
             if (RANDOM.nextBoolean()) {
-                randomNeighbor(g);
+                randomNeighbor();
             } else {
-                randomNeighbor2(g);
+                randomNeighbor2();
             }
-            final double currentTotalFitness = g.getFitness();
+            final double currentTotalFitness = this.graph.getFitness();
             if (currentTotalFitness < latestFitness || (RANDOM.nextDouble() < Math.exp((latestFitness - currentTotalFitness) / temperature))) {
                 latestFitness = currentTotalFitness;
             } else {
-                g.setVehicles(currentSolution);
+                this.graph.setVehicles(currentSolution);
             }
             temperature = variation * temperature;
         }
-        return g;
+        return this.graph;
     }
 
 }

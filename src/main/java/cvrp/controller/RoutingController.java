@@ -32,7 +32,7 @@ public class RoutingController implements Initializable {
     private final static int POINT_RADIUS = 5;
     private final static int ARROW_HEAD_SIZE = 10;
     private final static List<Color> AVAILABLE_COLORS = Arrays.asList(Color.RED, Color.ORANGE,
-            Color.GREEN, Color.DARKGREEN, Color.BLUE, Color.CORNFLOWERBLUE,Color.CRIMSON, Color.VIOLET);
+            Color.GREEN, Color.BLUE, Color.DARKGREEN,  Color.CORNFLOWERBLUE,Color.CRIMSON, Color.VIOLET);
 
     @FXML private AnchorPane graphPane;
     @FXML private Label statNbClients;
@@ -150,8 +150,8 @@ public class RoutingController implements Initializable {
         if (Algorithm.RANDOM.equals(selectedItem)) {
             drawGraph(Generation.graphGeneration(currentGraph, true));
         }else if(Algorithm.SIMULATED_ANNEALING.equals(selectedItem)){
-            TransfoElementaire t = new TransfoElementaire();
-            drawGraph(t.recuit(currentGraph, 1000, 0.9f));
+            TransfoElementaire t = new TransfoElementaire(currentGraph);
+            drawGraph(t.recuit(1000000, 0.9f));
         }
     }
 
@@ -162,12 +162,13 @@ public class RoutingController implements Initializable {
 
         int colorIndex = 0;
 
+        this.addPoint(graph.getWarehouse().getPosX() * GRAPH_GROWTH, graph.getWarehouse().getPosY() * GRAPH_GROWTH, Color.PINK).setRadius(2);
+
         for (Vehicle v : graph.getVehicles()) {
             this.setLoading(0.5f);
             ArrayList<Client> listClient = v.getVisit();
             Color visitColor = AVAILABLE_COLORS.get(colorIndex % AVAILABLE_COLORS.size());
             Client previous = graph.getWarehouse();
-            this.addPoint(previous.getPosX() * GRAPH_GROWTH, previous.getPosY() * GRAPH_GROWTH, Color.PINK).setRadius(10);
 
             colorIndex++;
             for (Client current : listClient) {
