@@ -113,14 +113,18 @@ public class TransfoElementaire {
         Vehicle vehicleToModify = this.graph.getVehicles().get(vehicleToModifyIndex);
         ArrayList<Client> visitToModify = vehicleToModify.getVisit();
 
-        //TODO remove when we have real operators
         if (visitToModify.size() > 1) {
             int clientToMoveIndex = RANDOM.nextInt(visitToModify.size());
+
+//            System.out.println(vehicleToModify.getLength());
             Client clientToMove = vehicleToModify.remove(clientToMoveIndex);
+//            System.out.println(vehicleToModify.getLength());
+
             int insertIndex;
             while ((insertIndex = RANDOM.nextInt(visitToModify.size() + 1)) == clientToMoveIndex) ;
             vehicleToModify.add(insertIndex, clientToMove);
         }
+//        System.out.println(vehicleToModify.getLength());
 
         return this.graph;
     }
@@ -166,7 +170,7 @@ public class TransfoElementaire {
 
     }
 
-    public Graph recuit(int maxIteration, float variation){
+    public Graph simulatedAnnealing(int maxIteration, float variation){
         ArrayList<Vehicle> currentSolution;
         double latestFitness = this.graph.getFitness();
         double temperature = this.graph.getInitialTemperature();
@@ -175,11 +179,11 @@ public class TransfoElementaire {
         for (int i = 0; i < maxIteration; i++) {
             currentSolution = this.graph.cloneCurrentSolution();
             if (RANDOM.nextBoolean()) {
-                randomNeighbor();
+                this.graph = randomNeighbor();
             } else {
-                randomNeighbor2();
+                this.graph = randomNeighbor2();
             }
-            final double currentTotalFitness = this.graph.getFitness();
+            double currentTotalFitness = this.graph.getFitness();
             if (currentTotalFitness < latestFitness || (RANDOM.nextDouble() < Math.exp((latestFitness - currentTotalFitness) / temperature))) {
                 latestFitness = currentTotalFitness;
             } else {

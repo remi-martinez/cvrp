@@ -35,7 +35,7 @@ public class Graph {
         this.minVehicles = nbTotalPackages / 100; // 100 de quantité par véhicule donc on prévoit large pour des petites tournées
 
         //Génération aléatoire du graph
-        Graph g =  Generation.graphGeneration(this, true);
+        Graph g =  Generation.graphGeneration(this, false);
     }
 
     public ArrayList<Vehicle> getVehicles() {
@@ -74,7 +74,6 @@ public class Graph {
     public Client getWarehouse() {
         return getClientList().get(0);
     }
-
 
     public double getFitness() {
         return getVehicles().stream().mapToDouble(Vehicle::getLength).sum();

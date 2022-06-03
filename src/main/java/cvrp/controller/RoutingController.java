@@ -160,7 +160,7 @@ public class RoutingController implements Initializable {
             drawGraph(Generation.graphGeneration(currentGraph, true));
         }else if(Algorithm.SIMULATED_ANNEALING.equals(selectedItem)){
             TransfoElementaire t = new TransfoElementaire(currentGraph);
-            drawGraph(t.recuit(1000000, 0.9f));
+            drawGraph(t.simulatedAnnealing(1000000,0.9f));
         }
     }
 

@@ -24,7 +24,7 @@ public class Generation {
 
         while (clients.size() != 0) {
             Client c = clients.get(index);
-            if ((int) vehicle.getVisit().stream().mapToDouble(Client::getQuantity).sum() >= capacityVehicle) {
+            if ((int) vehicle.getVisit().stream().mapToDouble(Client::getQuantity).sum() + c.getQuantity() > capacityVehicle) {
                 vehicles.add(new Vehicle(depot));
                 indexVehicle++;
                 vehicle = vehicles.get(indexVehicle);
@@ -32,6 +32,20 @@ public class Generation {
             vehicle.add(c);
             clients.remove(index);
         }
+
+//        //Affichage des distances des véhicules
+//        for (Vehicle v: vehicles) {
+//            System.out.println("Quantité = " + v.getQuantity());
+//            Client prev = g.getWarehouse();
+//            for (Client cl : v.getVisit()){
+//                System.out.println(v.calculateDistance(prev, cl));
+//                prev = cl;
+//            }
+//            System.out.println(v.getLength());
+//            System.out.println("-----------*--********************");
+//
+//        }
+
         g.setVehicles(vehicles);
         return g;
     }

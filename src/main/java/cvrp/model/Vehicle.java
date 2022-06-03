@@ -21,7 +21,6 @@ public class Vehicle {
     }
 
     public void add(Integer i, Client c) {
-        visit.add(i, c);
 
         if (visit.size() <= 1) {
             this.length = 2 * calculateDistance(warehouse, c);
@@ -39,13 +38,15 @@ public class Vehicle {
             }
 
             //On ajoute la distance du précédent au niveau client ainsi que du niveau client au suivant.
-            this.length += calculateDistance(prevClient, c) + calculateDistance(c, nextClient);
+            this.length += calculateDistance(prevClient, c);
+            this.length += calculateDistance(c, nextClient);
             //On retire l'ancienne distance
             this.length -= calculateDistance(prevClient, nextClient);
         }
 
         //On rajoute à la quantité de la visite le nouveau client
         this.quantity += c.getQuantity();
+        visit.add(i, c);
     }
 
     public Client remove(Integer i) {
@@ -57,28 +58,30 @@ public class Vehicle {
             if (i == 0) {
                 prevClient = this.warehouse;
                 nextClient = this.visit.get(i + 1);
-            } else if (i == this.visit.size()) {
+            } else if (i == this.visit.size() -1) {
                 prevClient = this.visit.get(i - 1);
                 nextClient = this.warehouse;
             } else {
                 prevClient = this.visit.get(i - 1);
-                nextClient = this.visit.get(i);
+                nextClient = this.visit.get(i + 1);
             }
 
             //On retire la distance avec le point précedent et suivant
-            this.length -= calculateDistance(prevClient, c) + calculateDistance(c, nextClient);
+            this.length -= calculateDistance(prevClient, c);
+            this.length -= calculateDistance(c, nextClient);
+
             //On ajoute la distance entre ces deux points
             this.length += calculateDistance(prevClient, nextClient);
+
         }
+        visit.remove(c);
 
         //Mise a jour de la quantité
         this.quantity -= c.getQuantity();
-
-        visit.remove(c);
         return c;
     }
 
-    private double calculateDistance(final Client startClient, final Client endCLient) {
+    public double calculateDistance(final Client startClient, final Client endCLient) {
         return Math.sqrt(Math.pow(endCLient.getPosX() - startClient.getPosX(), 2) + Math.pow(endCLient.getPosY() - startClient.getPosY(), 2));
     }
 
