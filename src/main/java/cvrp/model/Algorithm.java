@@ -2,7 +2,8 @@ package cvrp.model;
 
 public enum Algorithm {
     RANDOM("Aléatoire"),
-    SIMULATED_ANNEALING("Recuit simulé");
+    SIMULATED_ANNEALING("Recuit simulé"),
+    TABU("Tabou");
 
     private final String algorithmName;
 

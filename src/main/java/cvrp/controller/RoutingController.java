@@ -155,12 +155,15 @@ public class RoutingController implements Initializable {
         loadingPane.setVisible(true);
 
         Object selectedItem = algoTypeSelect.getSelectionModel().getSelectedItem();
+        Metaheuristic m = new Metaheuristic(currentGraph);
 
         if (Algorithm.RANDOM.equals(selectedItem)) {
             drawGraph(Generation.graphGeneration(currentGraph, true));
         }else if(Algorithm.SIMULATED_ANNEALING.equals(selectedItem)){
-            TransfoElementaire t = new TransfoElementaire(currentGraph);
-            drawGraph(t.simulatedAnnealing(1000000,0.9f));
+            drawGraph(m.simulatedAnnealing(1000000,0.9f));
+        }else if(Algorithm.TABU.equals(selectedItem)){
+            drawGraph(m.tabuSearch(100, 1));
+
         }
     }
 

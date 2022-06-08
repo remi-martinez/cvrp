@@ -79,12 +79,21 @@ public class Graph {
         return getVehicles().stream().mapToDouble(Vehicle::getLength).sum();
     }
 
+    public static double getFitness(ArrayList<Vehicle> vehicles){
+        return vehicles.stream().mapToDouble(Vehicle::getLength).sum();
+    }
+
     public double getInitialTemperature(){
         return -getFitness() / Math.log(0.5);
     }
 
-    public ArrayList<Vehicle> cloneCurrentSolution() {
+    public ArrayList<Vehicle> cloneVehicles() {
+        return (ArrayList<Vehicle>) this.vehicles.stream().map(Vehicle::clone).collect(Collectors.toList());
+    }
+
+    public static ArrayList<Vehicle> cloneVehicles(ArrayList<Vehicle> vehicles) {
         return (ArrayList<Vehicle>) vehicles.stream().map(Vehicle::clone).collect(Collectors.toList());
     }
+
 
 }
