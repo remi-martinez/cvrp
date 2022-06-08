@@ -144,11 +144,7 @@ public class RoutingController implements Initializable {
     @FXML
     public void startSimulation() {
         if(currentGraph == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Veuillez d'abord importer un graphe.");
-            alert.showAndWait();
+            this.openDialog("Erreur", "Veuillez d'abord importer un graphe.", Alert.AlertType.ERROR);
             return;
         }
 
@@ -165,6 +161,14 @@ public class RoutingController implements Initializable {
             drawGraph(m.tabuSearch(100, 1));
 
         }
+    }
+
+    public void openDialog(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 
@@ -207,11 +211,17 @@ public class RoutingController implements Initializable {
 
     @FXML
     public void testClicked() {
-        this.addLine(80, 80, 50, 50, Color.ORANGERED);
-        this.addPoint(50, 50, Color.BLUEVIOLET);
-        this.addPoint(80, 80, Color.BLUEVIOLET);
+        // Test stuff here...
+        CsvExporter csvExporter = new CsvExporter(null, this.currentGraph);
+        List<String[]> stringArray = new ArrayList<>();
+        stringArray.add(new String[]{"colA", "colB"});
+        stringArray.add(new String[]{"1", Double.toString(5d)});
+        stringArray.add(new String[]{"3", "4"});
+        String createdFileName = csvExporter.writeCsv(stringArray);
+        this.openDialog("Export CSV",
+                     "Fichier '" + createdFileName + "' exporté avec succès.",
+                             Alert.AlertType.INFORMATION);
 
-        // Test other stuff here...
     }
 
     @FXML
