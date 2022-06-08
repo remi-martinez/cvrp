@@ -98,6 +98,3 @@ modules.xml
 # Sonarlint plugin
 .idea/sonarlint
 /target/
-
-# Exported files
-/files/exports/
