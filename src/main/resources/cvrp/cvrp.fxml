@@ -39,7 +39,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Slider?>
@@ -109,11 +108,9 @@
                                           <ComboBox fx:id="algoTypeSelect" layoutX="18.0" layoutY="275.0" prefWidth="150.0" />
                                           <Label layoutX="17.0" layoutY="258.0" text="Type d'algorithme" />
                                           <Label layoutX="21.0" layoutY="116.0" text="Nombre de clients : " />
-                                          <AnchorPane fx:id="loadingPane" layoutX="2.0" layoutY="613.0" prefHeight="51.0" prefWidth="251.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                          <AnchorPane fx:id="loadingPane" layoutX="2.0" layoutY="613.0" prefHeight="51.0" prefWidth="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                              <children>
-                                                <ProgressBar fx:id="loadingProgressBar" prefHeight="18.0" prefWidth="230.0" progress="0.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="9.0" />
-                                                <Label layoutX="12.0" text="Traitement en cours..." />
-                                                <Label fx:id="loadingPercentage" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="224.0" text="0%" />
+                                                <Label fx:id="loadingLabel" layoutX="12.0" layoutY="28.0" prefHeight="18.0" prefWidth="227.0" text="Traitement en cours..." visible="false" />
                                              </children>
                                           </AnchorPane>
                                           <Button fx:id="startSimulationBtn" layoutX="16.0" layoutY="432.0" mnemonicParsing="false" onAction="#startSimulation" prefHeight="25.0" prefWidth="221.0" text="Démarrer" AnchorPane.leftAnchor="16.0" />

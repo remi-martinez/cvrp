@@ -41,9 +41,7 @@ public class RoutingController implements Initializable {
     @FXML private Label graphZoneLabel;
     @FXML private Label fileLabel;
 
-    @FXML private AnchorPane loadingPane;
-    @FXML private Label loadingPercentage;
-    @FXML private ProgressBar loadingProgressBar;
+    @FXML private Label loadingLabel;
 
     @FXML private Slider zoomSlider;
     @FXML private Label zoomPercentage;
@@ -73,7 +71,6 @@ public class RoutingController implements Initializable {
         zoomSlider.valueProperty().addListener((obs, oldValue, newValue) -> {
             setZoomLevel((double) newValue / 100d);
         });
-//        startSimulationBtn.disableProperty().bind(Bindings.createBooleanBinding(() -> currentGraph == null)); // FIXME
 
 
         this.algoTypeSelect.getItems().addAll(Algorithm.values());
@@ -148,8 +145,10 @@ public class RoutingController implements Initializable {
             return;
         }
 
-        loadingPane.setVisible(true);
-
+        long start = System.currentTimeMillis();
+        this.loadingLabel.setVisible(true);
+        this.setLoading(true, start);
+;
         Object selectedItem = algoTypeSelect.getSelectionModel().getSelectedItem();
         Metaheuristic m = new Metaheuristic(currentGraph);
 
@@ -159,8 +158,10 @@ public class RoutingController implements Initializable {
             drawGraph(m.simulatedAnnealing(1000000,0.9f));
         }else if(Algorithm.TABU.equals(selectedItem)){
             drawGraph(m.tabuSearch(100, 1));
-
         }
+
+        long elapsedTime = System.currentTimeMillis() - start;
+        this.setLoading(false, elapsedTime);
     }
 
     public void openDialog(String title, String message, Alert.AlertType alertType) {
@@ -183,7 +184,6 @@ public class RoutingController implements Initializable {
         this.addPoint(graph.getWarehouse().getPosX() * GRAPH_GROWTH, graph.getWarehouse().getPosY() * GRAPH_GROWTH, Color.PINK).setRadius(2);
 
         for (Vehicle v : graph.getVehicles()) {
-            this.setLoading(0.5f);
             ArrayList<Client> listClient = v.getVisit();
             Color visitColor = AVAILABLE_COLORS.get(colorIndex % AVAILABLE_COLORS.size());
             Client previous = graph.getWarehouse();
@@ -361,9 +361,8 @@ public class RoutingController implements Initializable {
                 colorCheckbox.isSelected() ? color : Color.BLACK, colorCheckbox.selectedProperty());
     }
 
-    public void setLoading(double value) {
-        loadingPercentage.setText(String.format("%.0f%%", value));
-        loadingProgressBar.setProgress(value);
+    public void setLoading(boolean state, long ms) {
+        loadingLabel.setText(state ?  "Traitement en cours..." : "Traitement terminé (" + (int)ms + "ms).");
     }
 
     @FXML
