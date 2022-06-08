@@ -16,4 +16,9 @@ public enum Algorithm {
     {
         return algorithmName;
     }
+
+    @Override
+    public String toString() {
+        return getAlgorithmName();
+    }
 }
