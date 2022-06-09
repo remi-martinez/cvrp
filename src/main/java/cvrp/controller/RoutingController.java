@@ -212,16 +212,6 @@ public class RoutingController implements Initializable {
     @FXML
     public void testClicked() {
         // Test stuff here...
-        CsvExporter csvExporter = new CsvExporter(null, this.currentGraph);
-        List<String[]> stringArray = new ArrayList<>();
-        stringArray.add(new String[]{"colA", "colB"});
-        stringArray.add(new String[]{"1", Double.toString(5d)});
-        stringArray.add(new String[]{"3", "4"});
-        String createdFileName = csvExporter.writeCsv(stringArray);
-        this.openDialog("Export CSV",
-                     "Fichier '" + createdFileName + "' exporté avec succès.",
-                             Alert.AlertType.INFORMATION);
-
     }
 
     @FXML

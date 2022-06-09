@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class Graph {
@@ -35,7 +34,7 @@ public class Graph {
         this.minVehicles = nbTotalPackages / 100; // 100 de quantité par véhicule donc on prévoit large pour des petites tournées
 
         //Génération aléatoire du graph
-        Graph g =  Generation.graphGeneration(this, false);
+        Graph g = Generation.graphGeneration(this, false);
     }
 
     public ArrayList<Vehicle> getVehicles() {
@@ -46,6 +45,9 @@ public class Graph {
         this.vehicles = vehicles;
     }
 
+    public int getClientCount() {
+        return clientList.size();
+    }
 
     public ArrayList<Client> getClientList() {
         return clientList;
@@ -79,11 +81,11 @@ public class Graph {
         return getVehicles().stream().mapToDouble(Vehicle::getLength).sum();
     }
 
-    public static double getFitness(ArrayList<Vehicle> vehicles){
+    public static double getFitness(ArrayList<Vehicle> vehicles) {
         return vehicles.stream().mapToDouble(Vehicle::getLength).sum();
     }
 
-    public double getInitialTemperature(){
+    public double getInitialTemperature() {
         return -300 / Math.log(0.8);
     }
 

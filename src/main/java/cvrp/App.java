@@ -1,7 +1,7 @@
 package cvrp;
 
+import cvrp.model.Simulation;
 import javafx.application.Application;
-import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +14,7 @@ import java.net.URL;
 public class App extends Application {
 
     private static Stage stage;
+    private static final boolean AUTOSTART_SIMULATIONS = true; // Mettre à false pour démarrer normalement le programme
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -27,12 +28,12 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
-    }
+        if (App.AUTOSTART_SIMULATIONS) {
+            Simulation.prepareSimu();
+            return;
+        }
 
-    public static void setupScene(Scene scene) {
-        if(App.stage != null)
-            App.stage.setScene(scene);
+        launch();
     }
 
     public static Stage getStage() {

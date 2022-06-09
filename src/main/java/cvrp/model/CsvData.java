@@ -1,90 +1,148 @@
 package cvrp.model;
 
 public class CsvData {
-    private String fileName;
-    private String clientName;
-    private Algorithm baseAlgorithm;
-    private double baseFitness;
-    private int minVehicleCount;
-    private Metaheuristic metaheuristic;
-    private double resultFitness;
-    private int vehicleCountResult;
-    private int iterationCount;
+    private String fileName; // Nom du fichier
+    private int clientCount; // Nombre de clients
+    private double baseFitness; // Fitness de base
+    private int minVehicleCount; // Nombre de véhicules minimum de base
+    private Algorithm metaheuristic; // Recuit ou Tabu (type d'algo)
+    private double resultFitness; // Fitness résultat après simulation
+    private int minVehicleCountResult; // Nombre de véhicules minimum après simulation
+    private int iterationCount; // Nombre d'itérations
 
     // For simulated annealing
     private double variation;
-    private double temperature;
 
     // For tabu
     private int tabuListSize;
 
-    // Constructor without extra params
     public CsvData(String fileName,
-                   String clientName,
-                   Algorithm baseAlgorithm,
+                   int clientCount,
                    double baseFitness,
                    int minVehicleCount,
-                   Metaheuristic metaheuristic,
+                   Algorithm metaheuristic,
                    double resultFitness,
-                   int vehicleCountResult,
-                   int iterationCount) {
-        this(fileName, clientName, baseAlgorithm, baseFitness, minVehicleCount, metaheuristic, resultFitness, vehicleCountResult, iterationCount, 0d, 0d, 0);
-    }
-
-   // Constructor for Tabu
-    public CsvData(String fileName,
-                   String clientName,
-                   Algorithm baseAlgorithm,
-                   double baseFitness,
-                   int minVehicleCount,
-                   Metaheuristic metaheuristic,
-                   double resultFitness,
-                   int vehicleCountResult,
-                   int iterationCount,
-                   int tabuListSize) {
-        this(fileName, clientName, baseAlgorithm, baseFitness, minVehicleCount, metaheuristic, resultFitness, vehicleCountResult, iterationCount, 0d, 0d, tabuListSize);
-    }
-
-    // Constructor for simulated annealing
-    public CsvData(String fileName,
-                   String clientName,
-                   Algorithm baseAlgorithm,
-                   double baseFitness,
-                   int minVehicleCount,
-                   Metaheuristic metaheuristic,
-                   double resultFitness,
-                   int vehicleCountResult,
+                   int minVehicleCountResult,
                    int iterationCount,
                    double variation,
-                   double temperature) {
-        this(fileName, clientName, baseAlgorithm, baseFitness, minVehicleCount, metaheuristic, resultFitness, vehicleCountResult, iterationCount, variation, temperature, 0);
-
-    }
-
-    // Full constructor
-    public CsvData(String fileName,
-                   String clientName,
-                   Algorithm baseAlgorithm,
-                   double baseFitness,
-                   int minVehicleCount,
-                   Metaheuristic metaheuristic,
-                   double resultFitness,
-                   int vehicleCountResult,
-                   int iterationCount,
-                   double variation,
-                   double temperature,
                    int tabuListSize) {
         this.fileName = fileName;
-        this.clientName = clientName;
-        this.baseAlgorithm = baseAlgorithm;
+        this.clientCount = clientCount;
         this.baseFitness = baseFitness;
         this.minVehicleCount = minVehicleCount;
         this.metaheuristic = metaheuristic;
         this.resultFitness = resultFitness;
-        this.vehicleCountResult = vehicleCountResult;
+        this.minVehicleCountResult = minVehicleCountResult;
         this.iterationCount = iterationCount;
         this.variation = variation;
-        this.temperature = temperature;
         this.tabuListSize = tabuListSize;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public int getClientCount() {
+        return clientCount;
+    }
+
+    public void setClientCount(int clientCount) {
+        this.clientCount = clientCount;
+    }
+
+    public double getBaseFitness() {
+        return baseFitness;
+    }
+
+    public void setBaseFitness(double baseFitness) {
+        this.baseFitness = baseFitness;
+    }
+
+    public int getMinVehicleCount() {
+        return minVehicleCount;
+    }
+
+    public void setMinVehicleCount(int minVehicleCount) {
+        this.minVehicleCount = minVehicleCount;
+    }
+
+    public Algorithm getMetaheuristic() {
+        return metaheuristic;
+    }
+
+    public void setMetaheuristic(Algorithm metaheuristic) {
+        this.metaheuristic = metaheuristic;
+    }
+
+    public double getResultFitness() {
+        return resultFitness;
+    }
+
+    public void setResultFitness(double resultFitness) {
+        this.resultFitness = resultFitness;
+    }
+
+    public int getMinVehicleCountResult() {
+        return minVehicleCountResult;
+    }
+
+    public void setMinVehicleCountResult(int minVehicleCountResult) {
+        this.minVehicleCountResult = minVehicleCountResult;
+    }
+
+    public int getIterationCount() {
+        return iterationCount;
+    }
+
+    public void setIterationCount(int iterationCount) {
+        this.iterationCount = iterationCount;
+    }
+
+    public double getVariation() {
+        return variation;
+    }
+
+    public void setVariation(double variation) {
+        this.variation = variation;
+    }
+
+    public int getTabuListSize() {
+        return tabuListSize;
+    }
+
+    public void setTabuListSize(int tabuListSize) {
+        this.tabuListSize = tabuListSize;
+    }
+
+    @Override
+    public String toString() {
+        return "CsvData{" +
+                "fileName='" + fileName + '\'' +
+                ", clientCount=" + clientCount +
+                ", baseFitness=" + baseFitness +
+                ", minVehicleCount=" + minVehicleCount +
+                ", metaheuristic=" + metaheuristic +
+                ", resultFitness=" + resultFitness +
+                ", vehicleCountResult=" + minVehicleCountResult +
+                ", iterationCount=" + iterationCount +
+                ", variation=" + variation +
+                ", tabuListSize=" + tabuListSize +
+                '}';
+    }
+
+    public String[] getRowForAlgorithm(Algorithm algorithm) {
+        String[] rows = new String[]{fileName, clientCount + "", baseFitness + "", minVehicleCount + "",
+                Utils.removeAccents(String.valueOf(metaheuristic)), resultFitness + "", minVehicleCountResult + "",
+                iterationCount + ""};
+
+        if (algorithm == Algorithm.SIMULATED_ANNEALING) {
+            return Utils.concatenate(rows, new String[]{variation + ""});
+        } else {
+            return Utils.concatenate(rows, new String[]{tabuListSize + ""});
+        }
     }
 }
