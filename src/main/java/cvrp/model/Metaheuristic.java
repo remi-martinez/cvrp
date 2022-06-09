@@ -31,10 +31,6 @@ public class Metaheuristic {
                     .min((solution1, solution2) -> (int) (Graph.getFitness(solution1) - Graph.getFitness(solution2)))
                     .get();
 
-            for (Vehicle v: min) {
-                System.out.print(v.getQuantity() + "-");
-            }
-
             double newRouteLength = Graph.getFitness(min);
             if (newRouteLength > latestFitness) {
                 if (tabuList.size() == tabuLength) {
@@ -60,24 +56,25 @@ public class Metaheuristic {
         double latestFitness = this.graph.getFitness();
         double temperature = this.graph.getInitialTemperature();
         Graph g;
-
-        for (int i = 0; i < maxIteration; i++) {
-            currentSolution = this.graph.cloneVehicles();
-            if (RANDOM.nextBoolean()) {
-                g = t.randomNeighbor();
-            } else {
-                g = t.randomNeighbor2();
-            }
-            double currentTotalFitness = g.getFitness();
-            double delta = latestFitness - currentTotalFitness;
-            if (delta > 0 || (RANDOM.nextDouble() < Math.exp(delta / temperature))) {
-                System.out.println(this.graph.getInitialTemperature());
-                latestFitness = currentTotalFitness;
-            } else {
-                this.graph.setVehicles(currentSolution);
+        int nbTemp = (int)(Math.log(Math.log(0.8) / Math.log(0.01))/Math.log(variation) )* 3;
+        for (int i = 0; i < nbTemp; i++){
+            for (int j = 0; j < maxIteration; j++) {
+                currentSolution = this.graph.cloneVehicles();
+                if (RANDOM.nextBoolean()) {
+                    g = t.randomNeighbor();
+                } else {
+                    g = t.randomNeighbor2();
+                }
+                double currentTotalFitness = g.getFitness();
+                double delta = currentTotalFitness - latestFitness;
+                if (delta < 0 || (RANDOM.nextDouble() < Math.exp(-delta / temperature))) {
+                    latestFitness = currentTotalFitness;
+                    this.graph = g;
+                } else {
+                    this.graph.setVehicles(currentSolution);
+                }
             }
             temperature = variation * temperature;
-//            System.out.println(delta);
         }
         return this.graph;
     }

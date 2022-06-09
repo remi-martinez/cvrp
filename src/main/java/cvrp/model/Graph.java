@@ -84,7 +84,7 @@ public class Graph {
     }
 
     public double getInitialTemperature(){
-        return -getFitness() / Math.log(0.5);
+        return -300 / Math.log(0.8);
     }
 
     public ArrayList<Vehicle> cloneVehicles() {

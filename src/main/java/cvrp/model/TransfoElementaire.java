@@ -51,7 +51,7 @@ public class TransfoElementaire {
             Client clientToMove = vehicleToModify.remove(clientToMoveIndex);
 
             int insertIndex;
-            while ((insertIndex = RANDOM.nextInt(visitToModify.size() + 1)) == clientToMoveIndex) ;
+            while ((insertIndex = RANDOM.nextInt(visitToModify.size() + 1)) == clientToMoveIndex);
             vehicleToModify.add(insertIndex, clientToMove);
         }
 
