@@ -145,7 +145,7 @@ public class RoutingController implements Initializable {
             return;
         }
 
-        long start = System.currentTimeMillis();
+        long start = System.nanoTime();
         this.loadingLabel.setVisible(true);
         this.setLoading(true, start);
 ;
@@ -160,8 +160,8 @@ public class RoutingController implements Initializable {
             drawGraph(m.tabuSearch(100, 1));
         }
 
-        long elapsedTime = System.currentTimeMillis() - start;
-        this.setLoading(false, elapsedTime);
+        long stop = System.nanoTime();
+        this.setLoading(false, Math.abs(start - stop) / 1000000);
     }
 
     public void openDialog(String title, String message, Alert.AlertType alertType) {

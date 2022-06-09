@@ -31,7 +31,7 @@ public class CsvExporter {
         this.pathFile = new File("").getAbsolutePath() + "\\files\\exports\\";
     }
 
-    public String writeCsv(String fileName, Algorithm baseAlgorithm) {
+    public String writeCsv(CsvData csvData) {
         List<String[]> stringArray = new ArrayList<>();
 
 
