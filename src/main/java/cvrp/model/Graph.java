@@ -10,9 +10,7 @@ import java.util.stream.Collectors;
 
 public class Graph {
     private ArrayList<Client> clientList = new ArrayList<>();
-    private ArrayList<Client> newMap = new ArrayList<>();
     private ArrayList<Vehicle> vehicles = new ArrayList<>();
-    private Client warehouse;
     private int minVehicles;
 
     public Graph(File file) throws IOException {
@@ -31,7 +29,7 @@ public class Graph {
             this.getClientList().add(client);
             nbTotalPackages += Integer.parseInt(line[3]);
         }
-        this.minVehicles = nbTotalPackages / 100; // 100 de quantité par véhicule donc on prévoit large pour des petites tournées
+        this.minVehicles = (int)(Math.ceil(nbTotalPackages / (double)Vehicle.QUANTITY_MAX)); // 100 de quantité par véhicule donc on prévoit large pour des petites tournées
 
         //Génération aléatoire du graph
         Graph g = Generation.graphGeneration(this, false);
@@ -55,14 +53,6 @@ public class Graph {
 
     public void setClientList(ArrayList<Client> clientList) {
         this.clientList = clientList;
-    }
-
-    public ArrayList<Client> getNewMap() {
-        return newMap;
-    }
-
-    public void setNewMap(ArrayList<Client> newMap) {
-        this.newMap = newMap;
     }
 
     public int getMinVehicles() {

@@ -1,5 +1,6 @@
 package cvrp;
 
+import cvrp.model.Algorithm;
 import cvrp.model.Simulation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +30,11 @@ public class App extends Application {
 
     public static void main(String[] args) {
         if (App.AUTOSTART_SIMULATIONS) {
-            Simulation.prepareSimu();
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.9f , 0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.8f , 0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.7f , 0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.6f , 0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.5f , 0);
             return;
         }
 

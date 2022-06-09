@@ -8,8 +8,13 @@ import java.io.IOException;
 
 public class Simulation {
 
-    public static void prepareSimu() {
-        CsvExporter csvExporter = new CsvExporter(Algorithm.SIMULATED_ANNEALING, 10000, 0.5f);
+    public static void prepareSimu(Algorithm algorithm, int iterationCount, float variation, int tabuListSize) {
+        CsvExporter csvExporter;
+        if(Algorithm.SIMULATED_ANNEALING.equals(algorithm)){
+            csvExporter = new CsvExporter(algorithm, iterationCount, variation);
+        }else{
+            csvExporter = new CsvExporter(algorithm, iterationCount, tabuListSize);
+        }
         CSVWriter writer = csvExporter.createCsv();
 
         long start = System.nanoTime();
@@ -50,7 +55,7 @@ public class Simulation {
     public static void startSimu(String fileName, CsvExporter csvExporter, CSVWriter writer) throws IOException {
         File file = new File(new File("").getAbsolutePath() + "\\files\\" + fileName);
         Graph _graph = new Graph(file);
-        Graph graph = Generation.graphGeneration(_graph, false);
+        Graph graph = Generation.graphGeneration(_graph, true);
 
         CsvData csvData = CsvDataBuilder.builder()
                 .fileName(fileName)

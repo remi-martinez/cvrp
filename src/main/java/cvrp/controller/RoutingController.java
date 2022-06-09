@@ -155,9 +155,9 @@ public class RoutingController implements Initializable {
         if (Algorithm.RANDOM.equals(selectedItem)) {
             drawGraph(Generation.graphGeneration(currentGraph, true));
         }else if(Algorithm.SIMULATED_ANNEALING.equals(selectedItem)){
-            drawGraph(m.simulatedAnnealing(10000,0.9f));
+            drawGraph(m.simulatedAnnealing(10000,0.1f));
         }else if(Algorithm.TABU.equals(selectedItem)){
-            drawGraph(m.tabuSearch(100, 1));
+            drawGraph(m.tabuSearch(10000, 2));
         }
 
         long stop = System.nanoTime();

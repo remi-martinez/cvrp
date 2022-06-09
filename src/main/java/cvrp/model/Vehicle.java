@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Vehicle {
 
-    final int QUANTITY_MAX = 100;
+    final static int QUANTITY_MAX = 100;
 
     private ArrayList<Client> visit = new ArrayList<>();
     private double length = 0;

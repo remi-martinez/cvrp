@@ -1,6 +1,5 @@
 package cvrp.model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -38,9 +37,10 @@ public class TransfoElementaire {
     }
 
     /**
-     * Déplacement aléatoire d'un point dans sa route
+     * RELOCATE INTRA
+     * Déplace un point aléatoirement dans sa route
      */
-    public Graph randomNeighbor() {
+    public Graph generateIntraRelocateNeighbor() {
         int vehicleToModifyIndex = RANDOM.nextInt(this.graph.getVehicles().size());
         Vehicle vehicleToModify = this.graph.getVehicles().get(vehicleToModifyIndex);
         ArrayList<Client> visitToModify = vehicleToModify.getVisit();
@@ -59,9 +59,10 @@ public class TransfoElementaire {
     }
 
     /**
+     * RELOCATE EXTRA
      * Deplace un point aléatoirement d'une route à une autre
      */
-    public Graph randomNeighbor2() {
+    public Graph generateExtraRelocateNeighbor() {
         Vehicle randomVehicleToModify = this.graph.getVehicles().get(RANDOM.nextInt(this.graph.getVehicles().size()));
         Client randomClientToModify = randomVehicleToModify.remove(RANDOM.nextInt(randomVehicleToModify.getVisit().size()));
 
@@ -108,10 +109,11 @@ public class TransfoElementaire {
 
         ArrayList<Vehicle> storedSolution = this.graph.cloneVehicles();
 
-        for (int routeIndex = 0; routeIndex < storedSolution.size(); routeIndex++) {
-            for (int pointIndex = 0; pointIndex < storedSolution.get(routeIndex).getVisit().size(); pointIndex++) {
-                neighbors.addAll(generateInternalNeighbors(routeIndex, pointIndex));
-                neighbors.addAll(generateExternalNeighbors(routeIndex, pointIndex));
+        for (int vehicleIndex = 0; vehicleIndex < storedSolution.size(); vehicleIndex++) {
+            for (int pointIndex = 0; pointIndex < storedSolution.get(vehicleIndex).getVisit().size(); pointIndex++) {
+                neighbors.addAll(generateRelocateInternNeighbors(vehicleIndex, pointIndex));
+                neighbors.addAll(generateRelocateExternNeighbors(vehicleIndex, pointIndex));
+//                neighbors.addAll(generateExchangeInternNeighbors(vehicleIndex, pointIndex));
                 this.graph.setVehicles(this.graph.cloneVehicles());
             }
         }
@@ -125,12 +127,12 @@ public class TransfoElementaire {
 
 
     /**
-     * On génère tout les voisins d'un graph en déplaçant un point dans sa route (relocate interne)
+     *Génération de TOUT les voisins avec RELOCATE INTERNE pour un véhicule et un point donné
      */
-    public ArrayList<ArrayList<Vehicle>> generateInternalNeighbors(int routeIndex, int pointIndex) {
+    public ArrayList<ArrayList<Vehicle>> generateRelocateInternNeighbors(int vehicleIndex, int pointIndex) {
         ArrayList<ArrayList<Vehicle>> neighbors = new ArrayList<>();
         ArrayList<Vehicle> storedSolution = this.graph.cloneVehicles();
-        Vehicle vehicleToModify = this.graph.getVehicles().get(routeIndex);
+        Vehicle vehicleToModify = this.graph.getVehicles().get(vehicleIndex);
 
         int size = vehicleToModify.getVisit().size();
 
@@ -152,32 +154,33 @@ public class TransfoElementaire {
     }
 
     /**
-     * On génère tout les voisins en déplacant le point dans les autres routes (relocate externe)
-     * @param routeIndex
+     *
+     * Génération de TOUT les voisins avec RELOCATE EXTERNE pour un véhicule et un point donné
+     * @param vehicleIndex
      * @param pointIndex
      * @return
      */
-    public ArrayList<ArrayList<Vehicle>> generateExternalNeighbors(int routeIndex, int pointIndex) {
-        final ArrayList<ArrayList<Vehicle>> neighbors = new ArrayList<>();
+    public ArrayList<ArrayList<Vehicle>> generateRelocateExternNeighbors(int vehicleIndex, int pointIndex) {
+        ArrayList<ArrayList<Vehicle>> neighbors = new ArrayList<>();
 
         ArrayList<Vehicle> defaultSolution = this.graph.cloneVehicles();
 
-        final Vehicle vehicleToModify = this.graph.getVehicles().get(routeIndex);
-        final Client clientToMove = vehicleToModify.remove(pointIndex);
+        Vehicle vehicleToModify = this.graph.getVehicles().get(vehicleIndex);
+        Client clientToMove = vehicleToModify.remove(pointIndex);
         if (vehicleToModify.getVisit().isEmpty()) {
-            this.graph.getVehicles().remove(routeIndex);
+            this.graph.getVehicles().remove(vehicleIndex);
         }
 
-        final ArrayList<Vehicle> intermediateSolution = this.graph.cloneVehicles();
+        ArrayList<Vehicle> intermediateSolution = this.graph.cloneVehicles();
 
-        for (int routeInsertIndex = 0; routeInsertIndex < intermediateSolution.size(); routeInsertIndex++) {
+        for (int vehicleInsertIndex = 0; vehicleInsertIndex < intermediateSolution.size(); vehicleInsertIndex++) {
 
-            if (vehicleToModify.getVisit().isEmpty() || routeInsertIndex != routeIndex) {
+            if (vehicleToModify.getVisit().isEmpty() || vehicleInsertIndex != vehicleIndex) {
 
-                final Vehicle vehicleToInsert = this.graph.getVehicles().get(routeInsertIndex);
+                Vehicle vehicleToInsert = this.graph.getVehicles().get(vehicleInsertIndex);
 
                 if (vehicleToInsert.getQuantity() + clientToMove.getQuantity() <= vehicleToModify.QUANTITY_MAX) {
-                    final ArrayList<Client> clientsToInsert = vehicleToInsert.getVisit();
+                    ArrayList<Client> clientsToInsert = vehicleToInsert.getVisit();
                     for (int pointInsertIndex = 0; pointInsertIndex <= clientsToInsert.size(); pointInsertIndex++) {
                         vehicleToInsert.add(pointInsertIndex, clientToMove);
                         neighbors.add(this.graph.cloneVehicles());
@@ -190,11 +193,39 @@ public class TransfoElementaire {
         }
 
 
-        final Vehicle newVehicle = new Vehicle(this.graph.getWarehouse());
+        Vehicle newVehicle = new Vehicle(this.graph.getWarehouse());
         newVehicle.add(clientToMove);
         this.graph.getVehicles().add(newVehicle);
         neighbors.add(this.graph.getVehicles());
         this.graph.setVehicles(defaultSolution);
+
+        return neighbors;
+    }
+
+    public ArrayList<ArrayList<Vehicle>> generateExchangeInternNeighbors(int vehicleIndex, int client1ToExchangeIndex) {
+        ArrayList<ArrayList<Vehicle>> neighbors = new ArrayList<>();
+        ArrayList<Vehicle> storedSolution = this.graph.cloneVehicles();
+        Vehicle vehicleToModify = this.graph.getVehicles().get(vehicleIndex);
+
+        int size = vehicleToModify.getVisit().size();
+
+        if (size >= 2) {
+
+            for (int client2ToExchangeIndex = 0; client2ToExchangeIndex < size; client2ToExchangeIndex++){
+                if(client2ToExchangeIndex != client1ToExchangeIndex){
+                    Client client2ToExchange = vehicleToModify.remove(client2ToExchangeIndex);
+                    Client client1ToExchange = vehicleToModify.remove(client1ToExchangeIndex);
+
+                    vehicleToModify.add(client1ToExchangeIndex, client2ToExchange);
+                    vehicleToModify.add(client2ToExchangeIndex, client1ToExchange);
+
+                    neighbors.add(this.graph.cloneVehicles());
+                }
+
+                //On remet la solution sauvegardée au graph
+                this.graph.setVehicles(storedSolution);
+            }
+        }
 
         return neighbors;
     }

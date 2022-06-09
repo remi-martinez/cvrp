@@ -51,19 +51,27 @@ public class Metaheuristic {
         return this.graph;
     }
 
+    /**
+     * Algorithme du recuit simulé
+     *
+     * @param maxIteration Nombres d'itération par température
+     * @param variation variation de la température
+     * @return
+     */
     public Graph simulatedAnnealing(int maxIteration, float variation) {
         ArrayList<Vehicle> currentSolution;
         double latestFitness = this.graph.getFitness();
         double temperature = this.graph.getInitialTemperature();
         Graph g;
-        int nbTemp = (int)(Math.log(Math.log(0.8) / Math.log(0.01))/Math.log(variation) )* 3;
+        int nbTemp = (int)(Math.log(Math.log(0.8) / Math.log(0.01))/Math.log(variation) )* 3; //Nb changement de temperature
+        System.out.println(nbTemp);
         for (int i = 0; i < nbTemp; i++){
             for (int j = 0; j < maxIteration; j++) {
                 currentSolution = this.graph.cloneVehicles();
                 if (RANDOM.nextBoolean()) {
-                    g = t.randomNeighbor();
+                    g = t.generateIntraRelocateNeighbor();
                 } else {
-                    g = t.randomNeighbor2();
+                    g = t.generateExtraRelocateNeighbor();
                 }
                 double currentTotalFitness = g.getFitness();
                 double delta = currentTotalFitness - latestFitness;
@@ -73,8 +81,8 @@ public class Metaheuristic {
                 } else {
                     this.graph.setVehicles(currentSolution);
                 }
+                temperature = variation * temperature;
             }
-            temperature = variation * temperature;
         }
         return this.graph;
     }
