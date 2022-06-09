@@ -32,20 +32,6 @@ public class Generation {
             vehicle.add(c);
             clients.remove(index);
         }
-
-//        //Affichage des distances des véhicules
-//        for (Vehicle v: vehicles) {
-//            System.out.println("Quantité = " + v.getQuantity());
-//            Client prev = g.getWarehouse();
-//            for (Client cl : v.getVisit()){
-//                System.out.println(v.calculateDistance(prev, cl));
-//                prev = cl;
-//            }
-//            System.out.println(v.getLength());
-//            System.out.println("-----------*--********************");
-//
-//        }
-
         g.setVehicles(vehicles);
         return g;
     }

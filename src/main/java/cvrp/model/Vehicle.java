@@ -22,7 +22,7 @@ public class Vehicle {
 
     public void add(Integer i, Client c) {
 
-        if (visit.size() <= 1) {
+        if (visit.size() == 0) {
             this.length = 2 * calculateDistance(warehouse, c);
         } else {
             Client prevClient, nextClient;
