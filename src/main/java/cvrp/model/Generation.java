@@ -5,17 +5,19 @@ import java.util.Collections;
 
 public class Generation {
 
-    public static Graph graphGeneration(Graph g, boolean randomized) {
-        int capacityVehicle = 100;
+    /**
+     * @param g
+     * @param quantityMax Par défaut la quantité Max est la constante Vehicle.QUANTITY_MAX mais
+     *                    pour certaines conditions on peux la modifier afin de remplir les camions à moitié au début par exemple
+     * @return
+     */
+    public static Graph fillVehicle(Graph g, int quantityMax) {
         int indexVehicle = 0;
 
         //On tire aléatoirement des noeuds pour les mettre dans des tournées aléatoirement
         ArrayList<Client> clients = (ArrayList<Client>) g.getClientList().clone();
         Client depot = clients.remove(0);
         ArrayList<Vehicle> vehicles = new ArrayList<>();
-        if(randomized){
-            Collections.shuffle(clients); //On randomize une seule fois la collection pour éviter de tirer un aléatoire à chaque fois
-        }
 
         int index = 0;
 
@@ -24,7 +26,7 @@ public class Generation {
 
         while (clients.size() != 0) {
             Client c = clients.get(index);
-            if ((int) vehicle.getVisit().stream().mapToDouble(Client::getQuantity).sum() + c.getQuantity() > capacityVehicle) {
+            if ((int) vehicle.getVisit().stream().mapToDouble(Client::getQuantity).sum() + c.getQuantity() > quantityMax) {
                 vehicles.add(new Vehicle(depot));
                 indexVehicle++;
                 vehicle = vehicles.get(indexVehicle);
@@ -35,4 +37,5 @@ public class Generation {
         g.setVehicles(vehicles);
         return g;
     }
+
 }

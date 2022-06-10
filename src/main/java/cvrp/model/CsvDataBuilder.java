@@ -13,6 +13,7 @@ public final class CsvDataBuilder {
     private double resultFitness; // Fitness résultat après simulation
     private int minVehicleCountResult; // Nombre de véhicules minimum après simulation
     private int iterationCount; // Nombre d'itérations
+    private int executionTime;
 
     private CsvDataBuilder() {
     }
@@ -71,7 +72,12 @@ public final class CsvDataBuilder {
         return this;
     }
 
+    public CsvDataBuilder executionTime(int executionTime){
+        this.executionTime = executionTime;
+        return this;
+    }
+
     public CsvData build() {
-        return new CsvData(fileName, clientCount, baseFitness, minVehicleCount, metaheuristic, resultFitness, minVehicleCountResult, iterationCount, variation, tabuListSize);
+        return new CsvData(fileName, clientCount, baseFitness, minVehicleCount, metaheuristic, resultFitness, minVehicleCountResult, iterationCount, variation, tabuListSize, executionTime);
     }
 }

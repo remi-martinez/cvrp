@@ -104,7 +104,6 @@
                                              <font>
                                                 <Font name="System Bold" size="12.0" />
                                              </font></Label>
-                                          <Button layoutX="18.0" layoutY="195.0" mnemonicParsing="false" onMouseClicked="#testClicked" text="Point test" />
                                           <ComboBox fx:id="algoTypeSelect" layoutX="18.0" layoutY="275.0" prefWidth="150.0" />
                                           <Label layoutX="17.0" layoutY="258.0" text="Type d'algorithme" />
                                           <Label layoutX="21.0" layoutY="116.0" text="Nombre de clients : " />
@@ -117,14 +116,14 @@
                                           <Label fx:id="statNbClients" layoutX="127.0" layoutY="116.0" text="0" />
                                           <Label layoutX="21.0" layoutY="133.0" text="Nombre de véhicules : " />
                                           <Label fx:id="statNbVehicles" layoutX="143.0" layoutY="133.0" text="0" />
-                                          <CheckBox fx:id="chkbox2Opt" layoutX="18.0" layoutY="341.0" mnemonicParsing="false" text="2-opt" />
-                                          <Label layoutX="17.0" layoutY="318.0" text="Transformations élémentaires">
-                                             <font>
-                                                <Font name="System Bold" size="12.0" />
-                                             </font>
-                                          </Label>
-                                          <CheckBox fx:id="chkboxExchange" layoutX="18.0" layoutY="361.0" mnemonicParsing="false" text="Exchange" />
-                                          <CheckBox fx:id="chkboxRelocate" layoutX="18.0" layoutY="381.0" mnemonicParsing="false" text="Relocate" />
+<!--                                          <CheckBox fx:id="chkbox2Opt" layoutX="18.0" layoutY="341.0" mnemonicParsing="false" text="2-opt" />-->
+<!--                                          <Label layoutX="17.0" layoutY="318.0" text="Transformations élémentaires">-->
+<!--                                             <font>-->
+<!--                                                <Font name="System Bold" size="12.0" />-->
+<!--                                             </font>-->
+<!--                                          </Label>-->
+<!--                                          <CheckBox fx:id="chkboxExchange" layoutX="18.0" layoutY="361.0" mnemonicParsing="false" text="Exchange" />-->
+<!--                                          <CheckBox fx:id="chkboxRelocate" layoutX="18.0" layoutY="381.0" mnemonicParsing="false" text="Relocate" />-->
                                           <Separator layoutX="14.0" layoutY="244.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                           <Label layoutX="21.0" layoutY="150.0" text="Fitness :" />
                                           <Label fx:id="statFitness" layoutX="66.0" layoutY="150.0" text="n/a" />

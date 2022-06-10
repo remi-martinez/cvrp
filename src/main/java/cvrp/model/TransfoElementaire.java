@@ -37,6 +37,42 @@ public class TransfoElementaire {
     }
 
     /**
+     * Génère un voisin alétoire en echangeant deux points d'une route
+     * @return
+     */
+    public Graph generateExchangeNeighbor(){
+        int vehicleToModifyIndex = RANDOM.nextInt(this.graph.getVehicles().size());
+        Vehicle vehicleToModify = this.graph.getVehicles().get(vehicleToModifyIndex);
+        int size = vehicleToModify.getVisit().size();
+
+        if (size > 2) {
+            int client1ToMoveIndex = RANDOM.nextInt(size);
+            int client2ToMoveIndex;
+            while ((client2ToMoveIndex = RANDOM.nextInt(size)) == client1ToMoveIndex);
+
+            exchange(vehicleToModify, client1ToMoveIndex, client2ToMoveIndex);
+        }
+
+        return this.graph;
+    }
+
+    public Graph generateTwoOptNeighbor(){
+        int vehicleToModifyIndex = RANDOM.nextInt(this.graph.getVehicles().size());
+        Vehicle vehicleToModify = this.graph.getVehicles().get(vehicleToModifyIndex);
+        int size = vehicleToModify.getVisit().size();
+
+        if (size > 2) {
+            int client1ToMoveIndex = RANDOM.nextInt(size);
+            int client2ToMoveIndex;
+            while ((client2ToMoveIndex = RANDOM.nextInt(size)) == client1ToMoveIndex);
+
+            twoOpt(vehicleToModify, client1ToMoveIndex, client2ToMoveIndex);
+        }
+
+        return this.graph;
+    }
+
+    /**
      * RELOCATE INTRA
      * Déplace un point aléatoirement dans sa route
      */
@@ -57,6 +93,8 @@ public class TransfoElementaire {
 
         return this.graph;
     }
+
+
 
     /**
      * RELOCATE EXTRA
@@ -100,7 +138,7 @@ public class TransfoElementaire {
     }
 
     /**
-     * Génération de tout les voisins pour tout les points du graph
+     * Génération de tout les voisins pour tout les points du graph pour TABU
      *
      * @return neighbors
      */
@@ -111,9 +149,9 @@ public class TransfoElementaire {
 
         for (int vehicleIndex = 0; vehicleIndex < storedSolution.size(); vehicleIndex++) {
             for (int pointIndex = 0; pointIndex < storedSolution.get(vehicleIndex).getVisit().size(); pointIndex++) {
-                neighbors.addAll(generateRelocateInternNeighbors(vehicleIndex, pointIndex));
-                neighbors.addAll(generateRelocateExternNeighbors(vehicleIndex, pointIndex));
-//                neighbors.addAll(generateExchangeInternNeighbors(vehicleIndex, pointIndex));
+                neighbors.addAll(generateRelocateInternNeighbors(vehicleIndex, pointIndex)); //Relocate Intra
+                neighbors.addAll(generateRelocateExternNeighbors(vehicleIndex, pointIndex)); //Relocate Exter
+                neighbors.addAll(generateExchangeInternNeighbors(vehicleIndex, pointIndex)); //Exchange
                 this.graph.setVehicles(this.graph.cloneVehicles());
             }
         }
@@ -127,6 +165,7 @@ public class TransfoElementaire {
 
 
     /**
+     * TABU
      *Génération de TOUT les voisins avec RELOCATE INTERNE pour un véhicule et un point donné
      */
     public ArrayList<ArrayList<Vehicle>> generateRelocateInternNeighbors(int vehicleIndex, int pointIndex) {
@@ -154,7 +193,7 @@ public class TransfoElementaire {
     }
 
     /**
-     *
+     * TABU
      * Génération de TOUT les voisins avec RELOCATE EXTERNE pour un véhicule et un point donné
      * @param vehicleIndex
      * @param pointIndex
@@ -202,6 +241,13 @@ public class TransfoElementaire {
         return neighbors;
     }
 
+    /**
+     * TABU
+     * Génére tout les voisins en échangeant deux points d'un véhicule
+     * @param vehicleIndex
+     * @param client1ToExchangeIndex
+     * @return
+     */
     public ArrayList<ArrayList<Vehicle>> generateExchangeInternNeighbors(int vehicleIndex, int client1ToExchangeIndex) {
         ArrayList<ArrayList<Vehicle>> neighbors = new ArrayList<>();
         ArrayList<Vehicle> storedSolution = this.graph.cloneVehicles();
@@ -211,22 +257,54 @@ public class TransfoElementaire {
 
         if (size >= 2) {
 
-            for (int client2ToExchangeIndex = 0; client2ToExchangeIndex < size; client2ToExchangeIndex++){
-                if(client2ToExchangeIndex != client1ToExchangeIndex){
-                    Client client2ToExchange = vehicleToModify.remove(client2ToExchangeIndex);
-                    Client client1ToExchange = vehicleToModify.remove(client1ToExchangeIndex);
-
-                    vehicleToModify.add(client1ToExchangeIndex, client2ToExchange);
-                    vehicleToModify.add(client2ToExchangeIndex, client1ToExchange);
-
+            for (int client2ToExchangeIndex = 0; client2ToExchangeIndex < size-2; client2ToExchangeIndex++){
+                    exchange(vehicleToModify, client1ToExchangeIndex, client2ToExchangeIndex);
                     neighbors.add(this.graph.cloneVehicles());
                 }
 
                 //On remet la solution sauvegardée au graph
                 this.graph.setVehicles(storedSolution);
-            }
         }
 
         return neighbors;
+    }
+
+    public void exchange(Vehicle vehicle, int client1Index, int client2Index){
+        if(client2Index != client1Index) {
+            Client client1, client2;
+            //On retire le plus grand en premier pour ne pas décaler les index de la liste
+            if (client1Index > client2Index) {
+                int temp= client1Index;
+                client1Index = client2Index;
+                client2Index = temp;
+            }
+                client2 = vehicle.remove(client2Index);
+                client1 = vehicle.remove(client1Index);
+                vehicle.add(client1Index, client2);
+                vehicle.add(client2Index, client1);
+
+        }
+    }
+
+    public void twoOpt(Vehicle vehicle, int client1Index, int client2Index){
+        if(client1Index != client2Index && client2Index != vehicle.getVisit().size()){
+            int client1adjIndex = client1Index+1;
+            int client2adjIndex = client2Index+1;
+            Client client1adj, client2;
+
+            if (client1Index > client2Index) {
+                int temp= client1Index;
+                client1Index = client2Index;
+                client2Index = temp;
+            }
+
+            Collections.reverse(vehicle.getVisit().subList(client1adjIndex, client2Index));
+
+            client2 = vehicle.remove(client2Index);
+            client1adj = vehicle.remove(client1adjIndex);
+
+            vehicle.add(client2Index, client1adj);
+            vehicle.add(client1Index, client2);
+        }
     }
 }

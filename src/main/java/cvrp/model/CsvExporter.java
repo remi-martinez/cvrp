@@ -21,7 +21,7 @@ public class CsvExporter {
     private final static String[] COLUMNS_HEADERS = new String[]{
             "Nom fichier", "Nb clients", "Fitness de base",
             "Nb vehicules min", "Metaheuristique", "Fitness resultat",
-            "Vehicules resultat", "Nombre iterations"
+            "Vehicules resultat", "Nombre iterations", "Temps d'éxecution(ms)"
     };
     private final static String[] COLUMNS_SIMULATED_ANNEALING = new String[]{"Variation (µ)"};
     private final static String[] COLUMNS_TABU = new String[]{"Taille liste tabou"};

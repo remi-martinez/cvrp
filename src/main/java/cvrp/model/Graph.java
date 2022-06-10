@@ -31,8 +31,7 @@ public class Graph {
         }
         this.minVehicles = (int)(Math.ceil(nbTotalPackages / (double)Vehicle.QUANTITY_MAX)); // 100 de quantité par véhicule donc on prévoit large pour des petites tournées
 
-        //Génération aléatoire du graph
-        Graph g = Generation.graphGeneration(this, false);
+        Graph g = Generation.fillVehicle(this, Vehicle.QUANTITY_MAX);
     }
 
     public ArrayList<Vehicle> getVehicles() {

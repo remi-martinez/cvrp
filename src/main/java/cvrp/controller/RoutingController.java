@@ -153,11 +153,11 @@ public class RoutingController implements Initializable {
         Metaheuristic m = new Metaheuristic(currentGraph);
 
         if (Algorithm.RANDOM.equals(selectedItem)) {
-            drawGraph(Generation.graphGeneration(currentGraph, true));
+            drawGraph(Generation.fillVehicle(currentGraph, Vehicle.QUANTITY_MAX));
         }else if(Algorithm.SIMULATED_ANNEALING.equals(selectedItem)){
-            drawGraph(m.simulatedAnnealing(10000,0.1f));
+            drawGraph(m.simulatedAnnealing(10000,0.9f));
         }else if(Algorithm.TABU.equals(selectedItem)){
-            drawGraph(m.tabuSearch(10000, 2));
+            drawGraph(m.tabuSearch(10000, 20));
         }
 
         long stop = System.nanoTime();
@@ -207,11 +207,6 @@ public class RoutingController implements Initializable {
                     visitColor);
         }
 
-    }
-
-    @FXML
-    public void testClicked() {
-        // Test stuff here...
     }
 
     @FXML

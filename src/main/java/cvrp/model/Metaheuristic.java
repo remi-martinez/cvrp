@@ -64,14 +64,23 @@ public class Metaheuristic {
         double temperature = this.graph.getInitialTemperature();
         Graph g;
         int nbTemp = (int)(Math.log(Math.log(0.8) / Math.log(0.01))/Math.log(variation) )* 3; //Nb changement de temperature
-        System.out.println(nbTemp);
         for (int i = 0; i < nbTemp; i++){
             for (int j = 0; j < maxIteration; j++) {
                 currentSolution = this.graph.cloneVehicles();
-                if (RANDOM.nextBoolean()) {
-                    g = t.generateIntraRelocateNeighbor();
-                } else {
-                    g = t.generateExtraRelocateNeighbor();
+                int rand = RANDOM.nextInt(2);
+                switch(rand){
+                    case 0 :
+                        g = t.generateIntraRelocateNeighbor();
+                        break;
+                    case 1 :
+                        g = t.generateExtraRelocateNeighbor();
+                        break;
+                    case 2:
+                        g = t.generateExchangeNeighbor();
+                        break;
+                    default:
+                        g = t.generateTwoOptNeighbor();
+                        break;
                 }
                 double currentTotalFitness = g.getFitness();
                 double delta = currentTotalFitness - latestFitness;

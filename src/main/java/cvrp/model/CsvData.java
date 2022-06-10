@@ -9,6 +9,7 @@ public class CsvData {
     private double resultFitness; // Fitness résultat après simulation
     private int minVehicleCountResult; // Nombre de véhicules minimum après simulation
     private int iterationCount; // Nombre d'itérations
+    private long executionTime; // Temps d'éxécution de l'algorithme
 
     // For simulated annealing
     private double variation;
@@ -25,7 +26,8 @@ public class CsvData {
                    int minVehicleCountResult,
                    int iterationCount,
                    double variation,
-                   int tabuListSize) {
+                   int tabuListSize,
+                   int executionTime) {
         this.fileName = fileName;
         this.clientCount = clientCount;
         this.baseFitness = baseFitness;
@@ -36,6 +38,7 @@ public class CsvData {
         this.iterationCount = iterationCount;
         this.variation = variation;
         this.tabuListSize = tabuListSize;
+        this.executionTime = executionTime;
     }
 
     public String getFileName() {
@@ -118,6 +121,14 @@ public class CsvData {
         this.tabuListSize = tabuListSize;
     }
 
+    public long getExecutionTime() {
+        return executionTime;
+    }
+
+    public void setExecutionTime(long executionTime) {
+        this.executionTime = executionTime;
+    }
+
     @Override
     public String toString() {
         return "CsvData{" +
@@ -131,13 +142,14 @@ public class CsvData {
                 ", iterationCount=" + iterationCount +
                 ", variation=" + variation +
                 ", tabuListSize=" + tabuListSize +
+                ", executionTime" + executionTime +
                 '}';
     }
 
     public String[] getRowForAlgorithm(Algorithm algorithm) {
         String[] rows = new String[]{fileName, clientCount + "", baseFitness + "", minVehicleCount + "",
                 Utils.removeAccents(String.valueOf(metaheuristic)), resultFitness + "", minVehicleCountResult + "",
-                iterationCount + ""};
+                iterationCount + "", executionTime +""};
 
         if (algorithm == Algorithm.SIMULATED_ANNEALING) {
             return Utils.concatenate(rows, new String[]{variation + ""});
