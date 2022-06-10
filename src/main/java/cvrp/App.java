@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class App extends Application {
 
@@ -30,11 +31,7 @@ public class App extends Application {
 
     public static void main(String[] args) {
         if (App.AUTOSTART_SIMULATIONS) {
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.9f , 0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.8f , 0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.7f , 0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.6f , 0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.5f , 0);
+            Simulation.prepareSimu(Algorithm.TABU, List.of(Algorithm.RANDOM, Algorithm.FILL_TRUCK),10000, 1);
             return;
         }
 

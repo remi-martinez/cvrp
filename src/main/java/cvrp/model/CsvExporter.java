@@ -13,6 +13,7 @@ import java.util.List;
 public class CsvExporter {
     private String pathFile;
     private Algorithm algorithm;
+    private Algorithm baseAlgorithm;
     private int iterationCount;
     private float variation;
     private int tabuListSize;
@@ -20,26 +21,27 @@ public class CsvExporter {
 
     private final static String[] COLUMNS_HEADERS = new String[]{
             "Nom fichier", "Nb clients", "Fitness de base",
-            "Nb vehicules min", "Metaheuristique", "Fitness resultat",
+            "Nb vehicules min", "Algo de base", "Metaheuristique", "Fitness resultat",
             "Vehicules resultat", "Nombre iterations"
     };
     private final static String[] COLUMNS_SIMULATED_ANNEALING = new String[]{"Variation (µ)"};
     private final static String[] COLUMNS_TABU = new String[]{"Taille liste tabou"};
 
 
-    public CsvExporter(Algorithm algorithm, int iterationCount) {
+    public CsvExporter(Algorithm algorithm, Algorithm baseAlgorithm, int iterationCount) {
         this.algorithm = algorithm;
+        this.baseAlgorithm = baseAlgorithm;
         this.iterationCount = iterationCount;
         this.pathFile = new File("").getAbsolutePath() + "\\files\\exports\\";
     }
 
-    public CsvExporter(Algorithm algorithm, int iterationCount, float variation) {
-        this(algorithm, iterationCount);
+    public CsvExporter(Algorithm algorithm, Algorithm baseAlgorithm, int iterationCount, float variation) {
+        this(algorithm, baseAlgorithm, iterationCount);
         this.variation = variation;
     }
 
-    public CsvExporter(Algorithm algorithm, int iterationCount, int tabuListSize) {
-        this(algorithm, iterationCount);
+    public CsvExporter(Algorithm algorithm, Algorithm baseAlgorithm, int iterationCount, int tabuListSize) {
+        this(algorithm, baseAlgorithm, iterationCount);
         this.tabuListSize = tabuListSize;
     }
 
@@ -82,30 +84,6 @@ public class CsvExporter {
         }
     }
 
-    public String writeCsv(List<String[]> stringArray) {
-        String fileName = "";
-        try {
-            fileName = getDateTime() + ".csv";
-            CSVWriter writer = new CSVWriter(new FileWriter(this.pathFile + fileName),
-                    CSVWriter.DEFAULT_SEPARATOR,
-                    CSVWriter.NO_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.RFC4180_LINE_END);
-            writer.writeAll(Collections.singleton(COLUMNS_HEADERS));
-            writer.writeAll(stringArray);
-            writer.flush();
-            writer.close();
-        } catch(IOException | NullPointerException e) {
-            e.printStackTrace();
-        }
-        return fileName;
-    }
-
-    public String getDateTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-HH-mm-ss");
-        return LocalDateTime.now().format(formatter);
-    }
-
     public String getPathFile() {
         return pathFile;
     }
@@ -146,10 +124,19 @@ public class CsvExporter {
         this.tabuListSize = tabuListSize;
     }
 
+    public Algorithm getBaseAlgorithm() {
+        return baseAlgorithm;
+    }
+
+    public void setBaseAlgorithm(Algorithm baseAlgorithm) {
+        this.baseAlgorithm = baseAlgorithm;
+    }
+
     @Override
     public String toString() {
         return "CsvExporter{" +
-                "algorithm=" + algorithm +
+                "baseAlgorithm=" + baseAlgorithm +
+                ", algorithm=" + algorithm +
                 ", iterationCount=" + iterationCount +
                 ", variation=" + variation +
                 ", tabuListSize=" + tabuListSize +

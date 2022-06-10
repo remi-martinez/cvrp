@@ -5,6 +5,7 @@ public class CsvData {
     private int clientCount; // Nombre de clients
     private double baseFitness; // Fitness de base
     private int minVehicleCount; // Nombre de véhicules minimum de base
+    private Algorithm baseAlgorithm; // Algorithme de base (RANDOM ou FILL_TRUCK)
     private Algorithm metaheuristic; // Recuit ou Tabu (type d'algo)
     private double resultFitness; // Fitness résultat après simulation
     private int minVehicleCountResult; // Nombre de véhicules minimum après simulation
@@ -20,6 +21,7 @@ public class CsvData {
                    int clientCount,
                    double baseFitness,
                    int minVehicleCount,
+                   Algorithm baseAlgorithm,
                    Algorithm metaheuristic,
                    double resultFitness,
                    int minVehicleCountResult,
@@ -30,6 +32,7 @@ public class CsvData {
         this.clientCount = clientCount;
         this.baseFitness = baseFitness;
         this.minVehicleCount = minVehicleCount;
+        this.baseAlgorithm = baseAlgorithm;
         this.metaheuristic = metaheuristic;
         this.resultFitness = resultFitness;
         this.minVehicleCountResult = minVehicleCountResult;
@@ -68,6 +71,14 @@ public class CsvData {
 
     public void setMinVehicleCount(int minVehicleCount) {
         this.minVehicleCount = minVehicleCount;
+    }
+
+    public Algorithm getBaseAlgorithm() {
+        return baseAlgorithm;
+    }
+
+    public void setBaseAlgorithm(Algorithm baseAlgorithm) {
+        this.baseAlgorithm = baseAlgorithm;
     }
 
     public Algorithm getMetaheuristic() {
@@ -125,6 +136,7 @@ public class CsvData {
                 ", clientCount=" + clientCount +
                 ", baseFitness=" + baseFitness +
                 ", minVehicleCount=" + minVehicleCount +
+                ", baseAlgorithm=" + baseAlgorithm +
                 ", metaheuristic=" + metaheuristic +
                 ", resultFitness=" + resultFitness +
                 ", vehicleCountResult=" + minVehicleCountResult +
@@ -136,7 +148,8 @@ public class CsvData {
 
     public String[] getRowForAlgorithm(Algorithm algorithm) {
         String[] rows = new String[]{fileName, clientCount + "", baseFitness + "", minVehicleCount + "",
-                Utils.removeAccents(String.valueOf(metaheuristic)), resultFitness + "", minVehicleCountResult + "",
+                Utils.removeAccents(baseAlgorithm.getAlgorithmName()),
+                Utils.removeAccents(metaheuristic.getAlgorithmName()), resultFitness + "", minVehicleCountResult + "",
                 iterationCount + ""};
 
         if (algorithm == Algorithm.SIMULATED_ANNEALING) {

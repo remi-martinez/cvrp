@@ -9,6 +9,7 @@ public final class CsvDataBuilder {
     private int clientCount; // Nombre de clients
     private double baseFitness; // Fitness de base
     private int minVehicleCount; // Nombre de véhicules minimum de base
+    private Algorithm baseAlgorithm; // Algorithme de base (RANDOM ou FILL_TRUCK)
     private Algorithm metaheuristic; // Recuit ou Tabu (type d'algo)
     private double resultFitness; // Fitness résultat après simulation
     private int minVehicleCountResult; // Nombre de véhicules minimum après simulation
@@ -51,6 +52,11 @@ public final class CsvDataBuilder {
         return this;
     }
 
+    public CsvDataBuilder baseAlgorithm(Algorithm baseAlgorithm) {
+        this.baseAlgorithm = baseAlgorithm;
+        return this;
+    }
+
     public CsvDataBuilder metaheuristic(Algorithm metaheuristic) {
         this.metaheuristic = metaheuristic;
         return this;
@@ -72,6 +78,6 @@ public final class CsvDataBuilder {
     }
 
     public CsvData build() {
-        return new CsvData(fileName, clientCount, baseFitness, minVehicleCount, metaheuristic, resultFitness, minVehicleCountResult, iterationCount, variation, tabuListSize);
+        return new CsvData(fileName, clientCount, baseFitness, minVehicleCount, baseAlgorithm, metaheuristic, resultFitness, minVehicleCountResult, iterationCount, variation, tabuListSize);
     }
 }
