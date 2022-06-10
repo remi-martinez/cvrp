@@ -1,6 +1,7 @@
 package cvrp.model;
 
 public enum Algorithm {
+    FILL_TRUCK("Remplissage camion"),
     RANDOM("Aléatoire"),
     SIMULATED_ANNEALING("Recuit simulé"),
     TABU("Tabou");
