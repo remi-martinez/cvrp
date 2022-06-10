@@ -25,15 +25,21 @@ public class Simulation {
         String[] pathnames = directory.list(filter);
 
         assert pathnames != null;
+        long startLocal, stopLocal;
         int index = 1;
         int totalSize = pathnames.length;
         for (String file : pathnames) {
+            startLocal = System.nanoTime();
             System.out.printf("[SIMULATION] (%s) Lecture fichier %s", index++ + "/" + totalSize, file);
+
             try {
                 Simulation.startSimu(file, csvExporter, writer);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            stopLocal = System.nanoTime();
+            System.out.println(" - simulation terminee (" + Math.abs(startLocal- stopLocal) / 1000000 + "ms).");
         }
 
         try {
@@ -49,9 +55,7 @@ public class Simulation {
     public static void startSimu(String fileName, CsvExporter csvExporter, CSVWriter writer) throws IOException {
         File file = new File(new File("").getAbsolutePath() + "\\files\\" + fileName);
         Graph _graph = new Graph(file);
-        Graph graph = Generation.fillVehicle(_graph, Vehicle.QUANTITY_MAX); // Cette valeur peut être modifié pour remplir les véhicules à l'initialisation à moitié par exemple.
-
-        long startLocal, stopLocal;
+        Graph graph = Generation.fillVehicle(_graph, Vehicle.QUANTITY_MAX);
 
         CsvData csvData = CsvDataBuilder.builder()
                 .fileName(fileName)
@@ -69,7 +73,6 @@ public class Simulation {
         Metaheuristic m = new Metaheuristic(graph);
         Graph optimizedGraph;
 
-        startLocal = System.currentTimeMillis();
         if(csvExporter.getAlgorithm() == Algorithm.SIMULATED_ANNEALING) {
             optimizedGraph = m.simulatedAnnealing(csvExporter.getIterationCount(), csvExporter.getVariation());
         } else {
@@ -77,12 +80,8 @@ public class Simulation {
         }
 
         // Fin de la simulation
-        stopLocal = System.currentTimeMillis();
-        long executionTime = Math.abs(startLocal- stopLocal);
-        System.out.println(" - simulation terminee (" + executionTime + "ms).");
         csvData.setResultFitness(optimizedGraph.getFitness());
         csvData.setMinVehicleCountResult(optimizedGraph.getMinVehicles());
-        csvData.setExecutionTime(executionTime);
 
         csvExporter.writeLine(csvData, writer);
     }
