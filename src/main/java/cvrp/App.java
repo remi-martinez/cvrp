@@ -38,8 +38,11 @@ public class App extends Application {
      */
     public static void main(String[] args) {
         if (App.AUTOSTART_SIMULATIONS) {
-            Simulation.prepareSimu(Algorithm.TABU, 10000, 0, 0,20);
-            Simulation.prepareSimu(Algorithm.TABU, 10000, 0, 0,30);
+            // Exemple: Tabu avec 10 000 itérations et une liste à 1
+            Simulation.prepareSimu(Algorithm.TABU, 10000, 0, 0,1);
+
+            // Exemple : Recuit simulé avec 10 000 itérations, une variation à 0.9 et une température à 250
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 250,0);
             return;
         }
 
