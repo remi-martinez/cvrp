@@ -164,6 +164,11 @@ public class CsvData {
                 Utils.removeAccents(String.valueOf(metaheuristic)), (double)Math.round(resultFitness * 100.0) / 100.0 + "", minVehicleCountResult + "",
                 iterationCount + "", executionTime +"", (double)Math.round((baseFitness - resultFitness) * 100.0) / 100.0 + ""};
 
+        int i = 0;
+        for (String row : rows) {
+            rows[i++] = row.replace(".",","); // Comma instead of dot
+        }
+
         if (algorithm == Algorithm.SIMULATED_ANNEALING) {
             return Utils.concatenate(rows, new String[]{(double)Math.round(variation * 10.0)/10.0 + "", String.valueOf(temperature)});
         } else {

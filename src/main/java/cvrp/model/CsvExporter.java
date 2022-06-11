@@ -58,7 +58,7 @@ public class CsvExporter {
             }
 
             writer = new CSVWriter(new FileWriter(fileName),
-                    CSVWriter.DEFAULT_SEPARATOR,
+                    ';',
                     CSVWriter.NO_QUOTE_CHARACTER,
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                     CSVWriter.RFC4180_LINE_END);

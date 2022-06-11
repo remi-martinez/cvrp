@@ -96,7 +96,7 @@ public class Simulation {
         System.out.println(" - simulation terminee (" + executionTime + "ms).");
 
         csvData.setResultFitness(optimizedGraph.getFitness());
-        csvData.setMinVehicleCountResult(optimizedGraph.getMinVehicles());
+        csvData.setMinVehicleCountResult(optimizedGraph.getVehicles().size());
         csvData.setExecutionTime(executionTime);
 
         csvExporter.writeLine(csvData, writer);
