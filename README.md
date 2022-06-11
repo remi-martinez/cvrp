@@ -50,7 +50,6 @@ This interface allowed us to illustrate our graphs in order to be able to inspec
 
 ![Untitled 7](https://user-images.githubusercontent.com/64494563/173204384-84f85a26-644c-4d6f-a5ec-993772998e4b.png)
 
-Translated with www.DeepL.com/Translator (free version)
 
 **Operation:**
 
@@ -119,5 +118,5 @@ Simulated annealing_10000_0.9_10.csv
 
 ---
 
-© 2022 - [Rémi MARTINEZ](https://github.com/remi-martinez/),  [Baptiste AUBERT](https://github.com/bapttiste73/)
+© 2022 - CC BY SA NC - [Rémi MARTINEZ](https://github.com/remi-martinez/),  [Baptiste AUBERT](https://github.com/bapttiste73/)
 
