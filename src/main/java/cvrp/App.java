@@ -31,26 +31,15 @@ public class App extends Application {
     /**
      * App.AUTOSTART_SIMULATIONS = Si ce paramètre est à False le programme va lancer la génération de l'algorithme choisi
      *                             avec ses paramètres puis exporter les résultats dans un fichier CSV.
-     *                             ATTENTION pour éviter de regénerer un fichier déjà fait, une erreur sera déclenché si le fichier
+     *                             ATTENTION pour éviter de remplacer un fichier déjà fait, une erreur sera déclenchée si le fichier
      *                             existe déjà avec ces paramètres.
      *                             Pour forcer la regéneration d'un fichier --> supprimer le fichier correspondant aux anciens résultats.
-     *                             Les fichiers sont au format ALGO_ITERATION_PARAMETRE.csv
-     * @param args
+     *                             Les fichiers sont au format Algo_nbIterations_parametres.csv
      */
     public static void main(String[] args) {
         if (App.AUTOSTART_SIMULATIONS) {
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 10,0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .7f, 10,0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .5f, 10,0);
-
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 50,0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .7f, 50,0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .5f, 50,0);
-
-
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 250,0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .7f, 250,0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .5f, 250,0);
+            Simulation.prepareSimu(Algorithm.TABU, 10000, 0, 0,20);
+            Simulation.prepareSimu(Algorithm.TABU, 10000, 0, 0,30);
             return;
         }
 
