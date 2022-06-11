@@ -2,6 +2,7 @@ package cvrp.controller;
 
 import cvrp.App;
 import cvrp.model.*;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
 import javafx.fxml.FXML;
@@ -56,11 +57,9 @@ public class RoutingController implements Initializable {
     @FXML private TextField graphGrowthTxt;
 
     @FXML private ComboBox algoTypeSelect;
-    @FXML private Button startSimulationBtn;
 
-    @FXML private CheckBox chkbox2Opt;
-    @FXML private CheckBox chkboxExchange;
-    @FXML private CheckBox chkboxRelocate;
+    @FXML private TabPane settingsTabPane;
+    @FXML private Tab settingsTab;
 
     private Graph currentGraph;
 
@@ -75,9 +74,6 @@ public class RoutingController implements Initializable {
 
         this.algoTypeSelect.getItems().addAll(Algorithm.values());
         this.algoTypeSelect.getSelectionModel().selectFirst();
-
-
-
     }
 
     @FXML
@@ -280,6 +276,16 @@ public class RoutingController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void openSettingsTab() {
+        settingsTabPane.getSelectionModel().select(settingsTab);
+    }
+
+    @FXML
+    public void quitApplication() {
+        Platform.exit();
     }
 
     public Circle addPoint(int x, int y, Color color) {

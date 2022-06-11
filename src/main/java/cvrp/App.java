@@ -26,6 +26,8 @@ public class App extends Application {
         Scene scene = new Scene(root);
         stage.setTitle("Capacited Vehicle Routing Problem");
         stage.setScene(scene);
+        stage.setMinHeight(540);
+        stage.setMinWidth(540);
         App.stage = stage;
         stage.show();
     }

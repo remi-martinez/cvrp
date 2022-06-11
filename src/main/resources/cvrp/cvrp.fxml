@@ -59,14 +59,14 @@
             <MenuItem mnemonicParsing="false" onAction="#resetGraph" text="Nouveau" />
             <MenuItem mnemonicParsing="false" onAction="#filePickerClicked" text="Ouvrir..." />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Paramètres" />
+            <MenuItem mnemonicParsing="false" onAction="#openSettingsTab" text="Paramètres" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quitter" />
+            <MenuItem mnemonicParsing="false" onAction="#quitApplication" text="Quitter" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edition">
+        <Menu mnemonicParsing="false" text="Simulation">
           <items>
-            <MenuItem mnemonicParsing="false" text="Démarrer" />
+            <MenuItem mnemonicParsing="false" onAction="#startSimulation" text="Démarrer" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Aide">
@@ -91,47 +91,44 @@
                   </AnchorPane>
                 <AnchorPane maxWidth="1000.0" minHeight="0.0" minWidth="250.0" prefHeight="160.0" prefWidth="114.0">
                      <children>
-                        <TabPane prefHeight="693.0" prefWidth="251.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TabPane fx:id="settingsTabPane" prefHeight="693.0" prefWidth="251.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
                             <Tab text="Données">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <Button layoutX="18.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#filePickerClicked" text="Choisir un fichier..." />
-                                          <Label layoutX="21.0" layoutY="39.0" text="Fichier :" />
-                                          <Label fx:id="fileLabel" layoutX="65.0" layoutY="39.0" text="Aucun fichier sélectionné" textFill="DARKGRAY" />
-                                          <Label layoutX="21.0" layoutY="89.0" text="Statistiques">
-                                             <font>
-                                                <Font name="System Bold" size="12.0" />
-                                             </font></Label>
-                                          <ComboBox fx:id="algoTypeSelect" layoutX="18.0" layoutY="275.0" prefWidth="150.0" />
-                                          <Label layoutX="17.0" layoutY="258.0" text="Type d'algorithme" />
-                                          <Label layoutX="21.0" layoutY="116.0" text="Nombre de clients : " />
-                                          <AnchorPane fx:id="loadingPane" layoutX="2.0" layoutY="613.0" prefHeight="51.0" prefWidth="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                          <AnchorPane layoutX="15.0" layoutY="77.0" prefHeight="79.0" prefWidth="232.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                                              <children>
-                                                <Label fx:id="loadingLabel" layoutX="12.0" layoutY="28.0" prefHeight="18.0" prefWidth="227.0" text="Traitement en cours..." visible="false" />
+                                                <Label text="Statistiques" AnchorPane.leftAnchor="0.0">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label layoutY="20.0" text="Nombre de clients : " AnchorPane.leftAnchor="0.0" />
+                                                <Label fx:id="statNbClients" layoutX="107.0" layoutY="20.0" text="0" />
+                                                <Label layoutY="40.0" text="Nombre de véhicules : " AnchorPane.leftAnchor="0.0" />
+                                                <Label fx:id="statNbVehicles" layoutX="121.0" layoutY="40.0" text="0" />
+                                                <Label layoutX="5.0" layoutY="60.0" text="Fitness :" AnchorPane.leftAnchor="0.0" />
+                                                <Label fx:id="statFitness" layoutX="45.0" layoutY="60.0" text="n/a" />
                                              </children>
                                           </AnchorPane>
-                                          <Button fx:id="startSimulationBtn" layoutX="16.0" layoutY="432.0" mnemonicParsing="false" onAction="#startSimulation" prefHeight="25.0" prefWidth="221.0" text="Démarrer" AnchorPane.leftAnchor="16.0" />
-                                          <Label fx:id="statNbClients" layoutX="127.0" layoutY="116.0" text="0" />
-                                          <Label layoutX="21.0" layoutY="133.0" text="Nombre de véhicules : " />
-                                          <Label fx:id="statNbVehicles" layoutX="143.0" layoutY="133.0" text="0" />
-<!--                                          <CheckBox fx:id="chkbox2Opt" layoutX="18.0" layoutY="341.0" mnemonicParsing="false" text="2-opt" />-->
-<!--                                          <Label layoutX="17.0" layoutY="318.0" text="Transformations élémentaires">-->
-<!--                                             <font>-->
-<!--                                                <Font name="System Bold" size="12.0" />-->
-<!--                                             </font>-->
-<!--                                          </Label>-->
-<!--                                          <CheckBox fx:id="chkboxExchange" layoutX="18.0" layoutY="361.0" mnemonicParsing="false" text="Exchange" />-->
-<!--                                          <CheckBox fx:id="chkboxRelocate" layoutX="18.0" layoutY="381.0" mnemonicParsing="false" text="Relocate" />-->
-                                          <Separator layoutX="14.0" layoutY="244.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                                          <Label layoutX="21.0" layoutY="150.0" text="Fitness :" />
-                                          <Label fx:id="statFitness" layoutX="66.0" layoutY="150.0" text="n/a" />
+                                          <Button layoutX="18.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#filePickerClicked" text="Choisir un fichier..." AnchorPane.leftAnchor="15.0" />
+                                          <Label layoutX="21.0" layoutY="39.0" text="Fichier :" AnchorPane.leftAnchor="15.0" />
+                                          <Label fx:id="fileLabel" layoutX="60.0" layoutY="39.0" text="Aucun fichier sélectionné" textFill="DARKGRAY" />
+                                          <ComboBox fx:id="algoTypeSelect" layoutX="18.0" layoutY="206.0" prefHeight="25.0" prefWidth="220.0" AnchorPane.leftAnchor="15.0" />
+                                          <Label layoutX="17.0" layoutY="189.0" text="Type d'algorithme" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+                                          <AnchorPane fx:id="loadingPane" layoutX="2.0" layoutY="613.0" prefHeight="51.0" prefWidth="251.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                             <children>
+                                                <Label fx:id="loadingLabel" layoutX="12.0" layoutY="28.0" prefHeight="18.0" prefWidth="227.0" text="Traitement en cours..." visible="false" AnchorPane.leftAnchor="15.0" />
+                                             </children>
+                                          </AnchorPane>
+                                          <Button fx:id="startSimulationBtn" layoutX="16.0" layoutY="240.0" mnemonicParsing="false" onAction="#startSimulation" prefHeight="25.0" prefWidth="220.0" text="Démarrer" AnchorPane.leftAnchor="15.0" />
+                                          <Separator layoutY="170.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                               </content>
                             </Tab>
-                            <Tab text="Paramètres">
+                            <Tab fx:id="settingsTab" text="Paramètres">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -161,7 +158,7 @@
                   <Slider fx:id="zoomSlider" layoutX="40.0" layoutY="2.0" majorTickUnit="50.0" max="300.0" min="10.0" minorTickCount="10" prefHeight="14.0" prefWidth="129.0" value="100.0" />
                   <Label text="Zoom" />
                   <Label fx:id="zoomPercentage" layoutX="169.0" text="100%" />
-                  <Label fx:id="mouseCoordinates" text="x : 0 / y : 0" AnchorPane.rightAnchor="0.0" />
+                  <Label fx:id="mouseCoordinates" layoutX="224.0" text="x : 0 / y : 0" AnchorPane.leftAnchor="225.0" />
                </children>
             </AnchorPane>
       </children>
