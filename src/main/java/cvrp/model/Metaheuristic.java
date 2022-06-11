@@ -56,12 +56,12 @@ public class Metaheuristic {
      *
      * @param maxIteration Nombres d'itération par température
      * @param variation variation de la température
-     * @return
+     * @return Graph g
      */
-    public Graph simulatedAnnealing(int maxIteration, float variation) {
+    public Graph simulatedAnnealing(int maxIteration, float variation, int temp) {
         ArrayList<Vehicle> currentSolution;
         double latestFitness = this.graph.getFitness();
-        double temperature = this.graph.getInitialTemperature();
+        double temperature = (double) temp;
         Graph g;
         int nbTemp = (int)(Math.log(Math.log(0.8) / Math.log(0.01))/Math.log(variation) )* 3; //Nb changement de temperature
         for (int i = 0; i < nbTemp; i++){
@@ -94,5 +94,13 @@ public class Metaheuristic {
             }
         }
         return this.graph;
+    }
+
+    public Graph simulatedAnnealing(int maxIteration, float variation){
+        return this.simulatedAnnealing(maxIteration, variation, (int)this.graph.getInitialTemperature());
+    }
+
+    public Graph test(){
+        return this.graph = t.generateIntraRelocateNeighbor();
     }
 }

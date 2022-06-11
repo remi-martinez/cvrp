@@ -218,7 +218,7 @@ public class TransfoElementaire {
 
                 Vehicle vehicleToInsert = this.graph.getVehicles().get(vehicleInsertIndex);
 
-                if (vehicleToInsert.getQuantity() + clientToMove.getQuantity() <= vehicleToModify.QUANTITY_MAX) {
+                if (vehicleToInsert.getQuantity() + clientToMove.getQuantity() <= Vehicle.QUANTITY_MAX) {
                     ArrayList<Client> clientsToInsert = vehicleToInsert.getVisit();
                     for (int pointInsertIndex = 0; pointInsertIndex <= clientsToInsert.size(); pointInsertIndex++) {
                         vehicleToInsert.add(pointInsertIndex, clientToMove);

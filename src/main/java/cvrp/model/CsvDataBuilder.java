@@ -3,6 +3,7 @@ package cvrp.model;
 public final class CsvDataBuilder {
     // For simulated annealing
     private double variation;
+    private int temperature;
     // For tabu
     private int tabuListSize;
     private String fileName; // Nom du fichier
@@ -13,6 +14,8 @@ public final class CsvDataBuilder {
     private double resultFitness; // Fitness résultat après simulation
     private int minVehicleCountResult; // Nombre de véhicules minimum après simulation
     private int iterationCount; // Nombre d'itérations
+    private long executionTime; // Temps d'éxecution
+
 
     private CsvDataBuilder() {
     }
@@ -71,7 +74,17 @@ public final class CsvDataBuilder {
         return this;
     }
 
+    public CsvDataBuilder executionTime(long executionTime){
+        this.executionTime = executionTime;
+        return this;
+    }
+
+    public CsvDataBuilder temperature(int temperature){
+        this.temperature = temperature;
+        return this;
+    }
+
     public CsvData build() {
-        return new CsvData(fileName, clientCount, baseFitness, minVehicleCount, metaheuristic, resultFitness, minVehicleCountResult, iterationCount, variation, tabuListSize);
+        return new CsvData(fileName, clientCount, baseFitness, minVehicleCount, metaheuristic, resultFitness, minVehicleCountResult, iterationCount, variation, temperature, tabuListSize, executionTime);
     }
 }

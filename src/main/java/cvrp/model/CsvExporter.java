@@ -16,14 +16,15 @@ public class CsvExporter {
     private int iterationCount;
     private float variation;
     private int tabuListSize;
-
+    private long executionTime;
+    private int temperature;
 
     private final static String[] COLUMNS_HEADERS = new String[]{
             "Nom fichier", "Nb clients", "Fitness de base",
             "Nb vehicules min", "Metaheuristique", "Fitness resultat",
-            "Vehicules resultat", "Nombre iterations"
+            "Vehicules resultat", "Nombre iterations", "Temps d'éxecution"
     };
-    private final static String[] COLUMNS_SIMULATED_ANNEALING = new String[]{"Variation (µ)"};
+    private final static String[] COLUMNS_SIMULATED_ANNEALING = new String[]{"Variation (µ)", "Température"};
     private final static String[] COLUMNS_TABU = new String[]{"Taille liste tabou"};
 
 
@@ -33,16 +34,16 @@ public class CsvExporter {
         this.pathFile = new File("").getAbsolutePath() + "\\files\\exports\\";
     }
 
-    public CsvExporter(Algorithm algorithm, int iterationCount, float variation) {
+    public CsvExporter(Algorithm algorithm, int iterationCount, float variation, int temperature) {
         this(algorithm, iterationCount);
         this.variation = variation;
+        this.temperature = temperature;
     }
 
     public CsvExporter(Algorithm algorithm, int iterationCount, int tabuListSize) {
         this(algorithm, iterationCount);
         this.tabuListSize = tabuListSize;
     }
-
 
     public CSVWriter createCsv() {
         CSVWriter writer = null;
@@ -72,6 +73,7 @@ public class CsvExporter {
         }
         return writer;
     }
+
     public void writeLine(CsvData csvData, CSVWriter writer) {
         try {
             if(writer == null) return;
@@ -138,12 +140,28 @@ public class CsvExporter {
         this.variation = variation;
     }
 
+    public int getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
+
     public int getTabuListSize() {
         return tabuListSize;
     }
 
     public void setTabuListSize(int tabuListSize) {
         this.tabuListSize = tabuListSize;
+    }
+
+    public long getExecutionTime() {
+        return executionTime;
+    }
+
+    public void setExecutionTime(int executionTime) {
+        this.executionTime = executionTime;
     }
 
     @Override

@@ -13,6 +13,7 @@ public class CsvData {
 
     // For simulated annealing
     private double variation;
+    private int temperature;
 
     // For tabu
     private int tabuListSize;
@@ -26,8 +27,10 @@ public class CsvData {
                    int minVehicleCountResult,
                    int iterationCount,
                    double variation,
+                   int temperature,
                    int tabuListSize,
-                   int executionTime) {
+                   long executionTime
+    ) {
         this.fileName = fileName;
         this.clientCount = clientCount;
         this.baseFitness = baseFitness;
@@ -39,6 +42,7 @@ public class CsvData {
         this.variation = variation;
         this.tabuListSize = tabuListSize;
         this.executionTime = executionTime;
+        this.temperature = temperature;
     }
 
     public String getFileName() {
@@ -129,6 +133,14 @@ public class CsvData {
         this.executionTime = executionTime;
     }
 
+    public int getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
+
     @Override
     public String toString() {
         return "CsvData{" +
@@ -141,18 +153,19 @@ public class CsvData {
                 ", vehicleCountResult=" + minVehicleCountResult +
                 ", iterationCount=" + iterationCount +
                 ", variation=" + variation +
+                ", temperature=" + temperature +
                 ", tabuListSize=" + tabuListSize +
                 ", executionTime" + executionTime +
                 '}';
     }
 
     public String[] getRowForAlgorithm(Algorithm algorithm) {
-        String[] rows = new String[]{fileName, clientCount + "", baseFitness + "", minVehicleCount + "",
-                Utils.removeAccents(String.valueOf(metaheuristic)), resultFitness + "", minVehicleCountResult + "",
-                iterationCount + "", executionTime +""};
+        String[] rows = new String[]{fileName, clientCount + "", (double)Math.round(baseFitness * 100.0) / 100.0 + "", minVehicleCount + "",
+                Utils.removeAccents(String.valueOf(metaheuristic)), (double)Math.round(resultFitness * 100.0) / 100.0 + "", minVehicleCountResult + "",
+                iterationCount + "", executionTime +"", (double)Math.round((baseFitness - resultFitness) * 100.0) / 100.0 + ""};
 
         if (algorithm == Algorithm.SIMULATED_ANNEALING) {
-            return Utils.concatenate(rows, new String[]{variation + ""});
+            return Utils.concatenate(rows, new String[]{(double)Math.round(variation * 10.0)/10.0 + "", String.valueOf(temperature)});
         } else {
             return Utils.concatenate(rows, new String[]{tabuListSize + ""});
         }

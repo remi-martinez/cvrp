@@ -152,8 +152,12 @@ public class RoutingController implements Initializable {
         Object selectedItem = algoTypeSelect.getSelectionModel().getSelectedItem();
         Metaheuristic m = new Metaheuristic(currentGraph);
 
-        if (Algorithm.RANDOM.equals(selectedItem)) {
-            drawGraph(Generation.fillVehicle(currentGraph, Vehicle.QUANTITY_MAX));
+        if(Algorithm.FILL_VEHICLE.equals(selectedItem)){
+            drawGraph(Generation.fillVehicle(currentGraph));
+        }else if (Algorithm.RANDOM.equals(selectedItem)) {
+            drawGraph(Generation.randomGeneration(currentGraph));
+        }else if (Algorithm.TEST.equals(selectedItem)) {
+            drawGraph(m.test());
         }else if(Algorithm.SIMULATED_ANNEALING.equals(selectedItem)){
             drawGraph(m.simulatedAnnealing(10000,0.9f));
         }else if(Algorithm.TABU.equals(selectedItem)){

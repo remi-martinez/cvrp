@@ -15,7 +15,7 @@ import java.net.URL;
 public class App extends Application {
 
     private static Stage stage;
-    private static final boolean AUTOSTART_SIMULATIONS = true; // Mettre à false pour démarrer une interface tah les oufs
+    private static final boolean AUTOSTART_SIMULATIONS = false; // Mettre à false pour démarrer une interface tah les oufs
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -39,16 +39,18 @@ public class App extends Application {
      */
     public static void main(String[] args) {
         if (App.AUTOSTART_SIMULATIONS) {
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.9f , 0);
-//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.8f , 0);
-//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.7f , 0);
-//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.6f , 0);
-//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000,.5f , 0);
-//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 100000,.9f , 0);
-//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 100000,.8f , 0);
-//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 100000,.7f , 0);
-//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 100000,.6f , 0);
-//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 100000,.5f , 0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 10,0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .7f, 10,0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .5f, 10,0);
+
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 50,0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .7f, 50,0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .5f, 50,0);
+
+
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 250,0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .7f, 250,0);
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .5f, 250,0);
             return;
         }
 
