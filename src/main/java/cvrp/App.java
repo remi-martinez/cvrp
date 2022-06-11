@@ -39,13 +39,13 @@ public class App extends Application {
      */
     public static void main(String[] args) {
         if (App.AUTOSTART_SIMULATIONS) {
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 10,0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .7f, 10,0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .5f, 10,0);
+//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 10,0);
+//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .7f, 10,0);
+//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .5f, 10,0);
 
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 50,0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .7f, 50,0);
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .5f, 50,0);
+//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 50,0);
+//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .7f, 50,0);
+//            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .5f, 50,0);
 
 
             Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 250,0);
