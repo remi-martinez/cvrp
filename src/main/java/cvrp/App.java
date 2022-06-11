@@ -15,7 +15,9 @@ import java.net.URL;
 public class App extends Application {
 
     private static Stage stage;
-    private static final boolean AUTOSTART_SIMULATIONS = true; // Mettre à false pour démarrer une interface tah les oufs
+
+    // Mettre à false pour démarrer une interface incroyable pensée par nos ingénieurs les plus compétents et beau au passage.
+    private static final boolean AUTOSTART_SIMULATIONS = false;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -38,11 +40,11 @@ public class App extends Application {
      */
     public static void main(String[] args) {
         if (App.AUTOSTART_SIMULATIONS) {
-            // Exemple: Tabu avec 10 000 itérations et une liste à 1
-            Simulation.prepareSimu(Algorithm.TABU, 10000, 0, 0,1);
+            // Exemple: Tabu avec 10 000 itérations et une liste à 2
+            Simulation.prepareSimu(Algorithm.TABU, 10000, 0, 0,2);
 
-            // Exemple : Recuit simulé avec 10 000 itérations, une variation à 0.9 et une température à 250
-            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .9f, 250,0);
+            // Exemple : Recuit simulé avec 10 000 itérations, une variation à 0.8 et une température à 250
+            Simulation.prepareSimu(Algorithm.SIMULATED_ANNEALING, 10000, .8f, 250,0);
             return;
         }
 
