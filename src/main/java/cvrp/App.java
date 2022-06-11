@@ -17,7 +17,7 @@ public class App extends Application {
     private static Stage stage;
 
     // Mettre à false pour démarrer une interface incroyable pensée par nos ingénieurs les plus compétents et beau au passage.
-    private static final boolean AUTOSTART_SIMULATIONS = false;
+    private static final boolean AUTOSTART_SIMULATIONS = true;
 
     @Override
     public void start(Stage stage) throws IOException {

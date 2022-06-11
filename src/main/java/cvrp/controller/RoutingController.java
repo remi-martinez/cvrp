@@ -85,7 +85,7 @@ public class RoutingController implements Initializable {
         fileChooser.getExtensionFilters().add(txtFilter);
 
         // Default directory
-        String defaultDirectoryString = new File("").getAbsolutePath() + "\\files";
+        String defaultDirectoryString = new File("").getAbsolutePath() + "\\files\\imports";
         File defaultDirectory = new File(defaultDirectoryString);
         if (!defaultDirectory.canRead()) {
             defaultDirectory = new File("c:/");

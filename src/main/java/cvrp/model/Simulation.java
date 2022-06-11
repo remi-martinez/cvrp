@@ -20,7 +20,7 @@ public class Simulation {
         long start = System.nanoTime();
         System.out.println("[SIMULATION] Lancement de tous les fichiers avec les parametres " + csvExporter);
 
-        File directory = new File(new File("").getAbsolutePath() + "\\files\\");
+        File directory = new File(new File("").getAbsolutePath() + "\\files\\imports\\");
         FilenameFilter filter = (f, name) -> name.endsWith(".txt");
         String[] pathnames = directory.list(filter);
 
@@ -47,7 +47,7 @@ public class Simulation {
     }
 
     public static void startSimu(String fileName, CsvExporter csvExporter, CSVWriter writer) throws IOException {
-        File file = new File(new File("").getAbsolutePath() + "\\files\\" + fileName);
+        File file = new File(new File("").getAbsolutePath() + "\\files\\imports\\" + fileName);
         Graph _graph = new Graph(file);
         Graph graph = Generation.randomGeneration(_graph);
 
