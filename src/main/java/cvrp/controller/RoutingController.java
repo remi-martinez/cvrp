@@ -155,7 +155,7 @@ public class RoutingController implements Initializable {
         }else if (Algorithm.TEST.equals(selectedItem)) {
             drawGraph(m.test());
         }else if(Algorithm.SIMULATED_ANNEALING.equals(selectedItem)){
-            drawGraph(m.simulatedAnnealing(10000,0.9f));
+            drawGraph(m.simulatedAnnealing(10000,0.9f, 50));
         }else if(Algorithm.TABU.equals(selectedItem)){
             drawGraph(m.tabuSearch(10000, 20));
         }
@@ -181,7 +181,7 @@ public class RoutingController implements Initializable {
 
         int colorIndex = 0;
 
-        this.addPoint(graph.getWarehouse().getPosX() * GRAPH_GROWTH, graph.getWarehouse().getPosY() * GRAPH_GROWTH, Color.PINK).setRadius(2);
+        this.addPoint(graph.getWarehouse().getPosX() * GRAPH_GROWTH, graph.getWarehouse().getPosY() * GRAPH_GROWTH, Color.YELLOW).setRadius(8);
 
         for (Vehicle v : graph.getVehicles()) {
             ArrayList<Client> listClient = v.getVisit();
