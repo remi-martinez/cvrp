@@ -15,7 +15,7 @@ import java.net.URL;
 public class App extends Application {
 
     private static Stage stage;
-    private static final boolean AUTOSTART_SIMULATIONS = false; // Mettre à false pour démarrer une interface tah les oufs
+    private static final boolean AUTOSTART_SIMULATIONS = true; // Mettre à false pour démarrer une interface tah les oufs
 
     @Override
     public void start(Stage stage) throws IOException {

@@ -49,7 +49,7 @@ public class Simulation {
     public static void startSimu(String fileName, CsvExporter csvExporter, CSVWriter writer) throws IOException {
         File file = new File(new File("").getAbsolutePath() + "\\files\\" + fileName);
         Graph _graph = new Graph(file);
-        Graph graph = Generation.fillVehicle(_graph, Vehicle.QUANTITY_MAX);
+        Graph graph = Generation.randomGeneration(_graph, Vehicle.QUANTITY_MAX);
 
         CsvData csvData = CsvDataBuilder.builder()
                 .fileName(fileName)
