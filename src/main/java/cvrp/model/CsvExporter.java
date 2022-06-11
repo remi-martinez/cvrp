@@ -50,8 +50,15 @@ public class CsvExporter {
         CSVWriter writer = null;
         try {
             String strVariation = variation == 0f ? "" : String.valueOf(variation);
+            String strTemperature = temperature == 0 ? "" : String.valueOf(temperature);
             String strTabuListSize = tabuListSize == 0 ? "" : String.valueOf(tabuListSize);
-            String fileName = this.pathFile + String.format("%s_%d_%s%s.csv", algorithm, iterationCount, strVariation, strTabuListSize);
+            String fileName = this.pathFile;
+
+            if(Algorithm.SIMULATED_ANNEALING.equals(algorithm)) {
+                fileName += String.format("bis%s_%d_%s_%s.csv", algorithm, iterationCount, strVariation, strTemperature);
+            } else {
+                fileName += String.format("bis%s_%d_%s.csv", algorithm, iterationCount, strTabuListSize);
+            }
 
             if(new File(fileName).exists()) {
                 throw new RuntimeException("Le fichier " + fileName + " existe deja. Creation annulee.");
@@ -171,6 +178,7 @@ public class CsvExporter {
                 "algorithm=" + algorithm +
                 ", iterationCount=" + iterationCount +
                 ", variation=" + variation +
+                ", temperature=" + temperature +
                 ", tabuListSize=" + tabuListSize +
                 '}';
     }

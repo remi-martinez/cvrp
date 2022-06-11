@@ -18,7 +18,7 @@ public class Simulation {
         CSVWriter writer = csvExporter.createCsv();
 
         long start = System.nanoTime();
-        System.out.println("[SIMULATION] Lancement de tous les fichiers les parametres " + csvExporter);
+        System.out.println("[SIMULATION] Lancement de tous les fichiers avec les parametres " + csvExporter);
 
         File directory = new File(new File("").getAbsolutePath() + "\\files\\");
         FilenameFilter filter = (f, name) -> name.endsWith(".txt");
