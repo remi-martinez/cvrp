@@ -1,4 +1,4 @@
-Nom fichier,Nb clients,Fitness de base,Nb vehicules min,Metaheuristique,Fitness resultat,Vehicules resultat,Nombre iterations,Temps d'éxecution,Variation (µ),Température
+Nom fichier,Nb clients,Fitness de base,Nb vehicules min,Metaheuristique,Fitness resultat,Vehicules resultat,Nombre iterations,Temps d'execution,Amelioration fitness,Variation (µ),Température
 A3205.txt,32,2735.09,5,Recuit simule,933.99,5,10000,380,1801.1,0.5,50
 A3305.txt,33,2139.95,5,Recuit simule,734.93,5,10000,395,1405.01,0.5,50
 A3306.txt,33,2240.06,6,Recuit simule,984.17,6,10000,387,1255.89,0.5,50
