@@ -1,6 +1,9 @@
-package cvrp.model;
+package cvrp.model.csv;
 
 import com.opencsv.CSVWriter;
+import cvrp.model.algorithm.Algorithm;
+import cvrp.model.utils.Utils;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

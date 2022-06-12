@@ -1,4 +1,7 @@
-package cvrp.model;
+package cvrp.model.csv;
+
+import cvrp.model.algorithm.Algorithm;
+import cvrp.model.utils.Utils;
 
 public class CsvData {
     private String fileName; // Nom du fichier

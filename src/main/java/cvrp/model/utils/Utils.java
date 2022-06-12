@@ -1,4 +1,4 @@
-package cvrp.model;
+package cvrp.model.utils;
 
 import java.text.Normalizer;
 import java.util.stream.Stream;

@@ -1,7 +1,12 @@
 package cvrp.controller;
 
 import cvrp.App;
-import cvrp.model.*;
+import cvrp.model.algorithm.Algorithm;
+import cvrp.model.algorithm.Generation;
+import cvrp.model.algorithm.Metaheuristic;
+import cvrp.model.entity.Client;
+import cvrp.model.entity.Graph;
+import cvrp.model.entity.Vehicle;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;

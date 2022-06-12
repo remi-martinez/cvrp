@@ -1,4 +1,4 @@
-package cvrp.model;
+package cvrp.model.entity;
 
 import java.util.ArrayList;
 import java.util.Collections;

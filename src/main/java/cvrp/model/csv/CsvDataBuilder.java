@@ -1,4 +1,6 @@
-package cvrp.model;
+package cvrp.model.csv;
+
+import cvrp.model.algorithm.Algorithm;
 
 public final class CsvDataBuilder {
     // For simulated annealing

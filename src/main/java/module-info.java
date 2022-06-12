@@ -5,5 +5,8 @@ module cvrp {
 
     opens cvrp.controller to javafx.fxml;
     exports cvrp;
-    opens cvrp.model to javafx.fxml;
+    opens cvrp.model.algorithm to javafx.fxml;
+    opens cvrp.model.csv to javafx.fxml;
+    opens cvrp.model.entity to javafx.fxml;
+    opens cvrp.model.utils to javafx.fxml;
 }

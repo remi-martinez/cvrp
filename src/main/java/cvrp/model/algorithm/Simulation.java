@@ -1,6 +1,10 @@
-package cvrp.model;
+package cvrp.model.algorithm;
 
 import com.opencsv.CSVWriter;
+import cvrp.model.entity.Graph;
+import cvrp.model.csv.CsvData;
+import cvrp.model.csv.CsvDataBuilder;
+import cvrp.model.csv.CsvExporter;
 
 import java.io.File;
 import java.io.FilenameFilter;

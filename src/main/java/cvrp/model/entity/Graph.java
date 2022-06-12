@@ -1,5 +1,7 @@
-package cvrp.model;
+package cvrp.model.entity;
 
+
+import cvrp.model.algorithm.Generation;
 
 import java.io.BufferedReader;
 import java.io.File;

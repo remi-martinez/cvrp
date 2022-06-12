@@ -1,4 +1,4 @@
-package cvrp.model;
+package cvrp.model.entity;
 
 
 import static java.lang.Integer.parseInt;

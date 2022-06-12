@@ -1,4 +1,8 @@
-package cvrp.model;
+package cvrp.model.algorithm;
+
+import cvrp.model.entity.Graph;
+import cvrp.model.entity.TransfoElementaire;
+import cvrp.model.entity.Vehicle;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

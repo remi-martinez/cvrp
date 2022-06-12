@@ -1,4 +1,4 @@
-package cvrp.model;
+package cvrp.model.algorithm;
 
 public enum Algorithm {
     FILL_VEHICLE("Remplissage camion"),
