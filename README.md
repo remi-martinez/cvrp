@@ -123,5 +123,5 @@ Simulated annealing_10000_0.9_10.csv
 
 ---
 
-© 2022 - CC BY SA NC - [Rémi MARTINEZ](https://github.com/remi-martinez/),  [Baptiste AUBERT](https://github.com/bapttiste73/)
+© 2026 - CC BY SA NC - [Rémi MARTINEZ](https://github.com/remi-martinez/),  [Baptiste AUBERT](https://github.com/bapttiste73/)
 

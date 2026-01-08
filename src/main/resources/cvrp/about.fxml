@@ -24,7 +24,7 @@
                </image>
             </ImageView>
             <Label layoutX="15.0" layoutY="52.0" text="Réalisé par Baptiste AUBERT et Rémi MARTINEZ" />
-            <Label layoutX="14.0" layoutY="165.0" text="© 2022 - CC BY-NC-SA" />
+            <Label layoutX="14.0" layoutY="165.0" text="© 2026 - CC BY-NC-SA" />
          </children>
       </AnchorPane>
    </children>
